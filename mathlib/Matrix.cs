@@ -43,5 +43,40 @@ namespace mathlib
             }
             return ab;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b">Vector-column</param>
+        /// <returns></returns>
+        public static double[] Mul(double[,] a, double[] b)
+        {
+            var n = a.GetLength(0);
+            var m = a.GetLength(1);
+            if (m!=b.Length)
+                throw new Exception("Inconsistent matrix and vector");
+
+            var ab = new double[n];
+            for (int i = 0; i < n; i++)
+            {
+                var v = 0.0;
+                for (int j = 0; j < m; j++)
+                {
+                    v += a[i, j]*b[j];
+                }
+                ab[i] = v;
+            }
+            return ab;
+        }
+
+        public static double[,] Inverse(double[,] matrix)
+        {
+            var inv = (double[,])matrix.Clone();
+            int info;
+            alglib.matinvreport rep;
+            alglib.rmatrixinverse(ref inv, out info, out rep);
+            return inv;
+        }
     }
 }

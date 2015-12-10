@@ -50,5 +50,48 @@ namespace Tests
                {1,-3}
             }, ab);
         }
+
+        [Test]
+        public void MulByVectorTest()
+        {
+            var a = new double[,]
+            {
+                {1, 2, 3},
+                {1, -1, 0}
+            };
+
+            var b = new double[] {1,-2,1};
+
+            var ab = Matrix.Mul(a, b);
+
+            Assert.AreEqual(new double[] {0,3}, ab);
+        }
+
+        [Test]
+        public void InverseTest()
+        {
+            var m = new double[,]
+            {
+                {1, 0},
+                {0, 1}
+            };
+
+            var inv = Matrix.Inverse(m);
+            Assert.AreEqual(m, inv);
+
+            m = new double[,]
+            {
+                {1, 1},
+                {2, 1}
+            };
+
+            inv = Matrix.Inverse(m);
+            Assert.AreEqual(new double[,]
+            {
+                {-1,1 },
+                {2,-1 }
+            }, inv);
+
+        }
     }
 }
