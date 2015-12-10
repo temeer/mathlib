@@ -31,13 +31,17 @@ namespace mathlib
             var ab = new double[n, k];
             for (int i = 0; i < n; i++)
             {
-                for (int j = 0; j < m; j++)
+                for (int j = 0; j < k; j++)
                 {
-                    
+                    var v = 0.0;
+                    for (int t = 0; t < m; t++)
+                    {
+                        v += a[i, t]*b[t, j];
+                    }
+                    ab[i, j] = v;
                 }
             }
-            throw new NotImplementedException();
-
+            return ab;
         }
     }
 }
