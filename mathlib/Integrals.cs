@@ -1,10 +1,37 @@
 ﻿using System;
 using System.Linq;
+using MoreLinq;
 
 namespace mathlib
 {
     public static class Integrals
     {
+        /// <summary>
+        /// Calculates integral on (a,b) using nodes (nodes[i] that not in [a,b] are not taken into account)
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="nodes">Sorted array of nodes</param>
+        /// <param name="formulaType"></param>
+        /// <returns></returns>
+        public static double Rectangular(Func<double, double> f, double a, double b, double[] nodes,
+            RectType formulaType)
+        {
+            //var nodesInSegment = nodes.SkipWhile(x => x < a).TakeWhile(x => x < b).ToList();
+            //var i = 0;
+            //while (nodes[i] < a && i < nodes.Length) ++i;
+
+
+
+            //for (int i = 0; i < nodesInSegment.Length; i++)
+            //{
+                
+            //}
+            throw new NotImplementedException();
+        }
+
+
         /// <summary>
         /// Returns integral from nodes[0] to nodes[last] of function f.
         /// </summary>
@@ -35,7 +62,7 @@ namespace mathlib
 
             for (int i = 0; i < nodes.Length - 1; i++)
             {
-                sum += (a * f(nodes[i]) + b * f(nodes[i + 1])) * (nodes[i + 1] - nodes[i]);
+                sum += f(a * nodes[i] + b * nodes[i + 1]) * (nodes[i + 1] - nodes[i]);
             }
             return sum;
         }
@@ -76,7 +103,7 @@ namespace mathlib
 
         public static double Rectangular(Func<double, double> f, double a, double b, int nodesCount, RectType formulaType = RectType.Left)
         {
-            var nodes = Enumerable.Range(0, nodesCount - 1).Select(j => a + j * (b - a) / (nodesCount - 1)).ToArray();
+            var nodes = Enumerable.Range(0, nodesCount).Select(j => a + j * (b - a) / (nodesCount - 1)).ToArray();
             return Rectangular(f, nodes, formulaType);
         }
 

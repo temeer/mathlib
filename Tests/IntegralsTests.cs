@@ -21,12 +21,12 @@ namespace Tests
                 new TestCase(x => x, -1, 3, 4.0, 10000, 0.01),
                 new TestCase(x =>
                 {
-                    if (x < 0.125)
+                    if (x <= 0.25)
                         return 1;
-                    if (x < 0.5)
+                    if (x <= 0.5)
                         return -1;
                     return 0;
-                }, 0, 1, 5, 0, 0.001)
+                }, 0, 1, 0, 5, 0.001)
             };
 
         }
