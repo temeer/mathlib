@@ -5,7 +5,7 @@ namespace mathlib
     public static class LinearSystem
     {
         /// <summary>
-        /// Finds X vector in linear system AX=B. Rows count in matrix A must be equal to that in vector B.
+        /// Finds X vector in linear system AX=B. Rows count in matrix A must be equal to length of the vector B.
         /// </summary>
         /// <param name="A"></param>
         /// <param name="B"></param>
