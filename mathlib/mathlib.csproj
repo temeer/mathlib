@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChebRobustCalc.cs" />
     <Compile Include="DiffEq\Euler.cs" />
     <Compile Include="Integrals.cs" />
     <Compile Include="LinearSystem.cs" />
