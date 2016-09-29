@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using mathlib.Symbolic;
 using MoreLinq;
 
 namespace mathlib
@@ -105,6 +106,16 @@ namespace mathlib
         {
             var nodes = Enumerable.Range(0, nodesCount).Select(j => a + j * (b - a) / (nodesCount - 1)).ToArray();
             return Rectangular(f, nodes, formulaType);
+        }
+
+        public static double Rectangular(Integral integral, int nodesCount, RectType formulaType = RectType.Left)
+        {
+            return Rectangular(integral.Function, integral.LowerBound, integral.UpperBound, nodesCount, formulaType);
+        }
+
+        public static double Trapezoid(Integral integral, int nodesCount)
+        {
+            return Trapezoid(integral.Function, integral.LowerBound, integral.UpperBound, nodesCount);
         }
 
         public enum RectType
