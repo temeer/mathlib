@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DiffEq\Solver.cs" />
+    <Compile Include="ChebRobustCalc.cs" />
     <Compile Include="Integrals.cs" />
     <Compile Include="LinearSystem.cs" />
     <Compile Include="Matrix.cs" />
