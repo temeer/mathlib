@@ -33,6 +33,9 @@
     <Reference Include="alglibnet2">
       <HintPath>..\libs\alglibnet2.dll</HintPath>
     </Reference>
+    <Reference Include="DiscreteFunctions">
+      <HintPath>..\libs\DiscreteFunctions.dll</HintPath>
+    </Reference>
     <Reference Include="MoreLinq, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
       <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
       <Private>True</Private>
@@ -47,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DiffEq\Euler.cs" />
+    <Compile Include="DiffEq\Solver.cs" />
     <Compile Include="Integrals.cs" />
     <Compile Include="LinearSystem.cs" />
     <Compile Include="Matrix.cs" />
