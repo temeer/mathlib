@@ -113,6 +113,19 @@ namespace mathlib
             return Rectangular(integral.Function, integral.LowerBound, integral.UpperBound, nodesCount, formulaType);
         }
 
+        /// <summary>
+        /// If upper bound of integral is infinite then for numerically calculation we should set some finite upper bound.
+        /// </summary>
+        /// <param name="integral"></param>
+        /// <param name="nodesCount"></param>
+        /// <param name="upperBound"></param>
+        /// <param name="formulaType"></param>
+        /// <returns></returns>
+        public static double RectangularInfinite(Integral integral, int nodesCount, double upperBound, RectType formulaType = RectType.Left)
+        {
+            return Rectangular(integral.Function, integral.LowerBound, upperBound, nodesCount, formulaType);
+        }
+
         public static double Trapezoid(Integral integral, int nodesCount)
         {
             return Trapezoid(integral.Function, integral.LowerBound, integral.UpperBound, nodesCount);

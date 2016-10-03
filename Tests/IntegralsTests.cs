@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using mathlib;
+using mathlib.Symbolic;
 using NUnit.Framework;
+using static System.Math;
 
 namespace Tests
 {
@@ -85,6 +87,14 @@ namespace Tests
             RunTestCases(
                 testCase => Integrals.Trapezoid(testCase.Func, testCase.A, testCase.B, testCase.NodesCount)
             );
+        }
+
+        [Test]
+        public void RectangularInfititeTest()
+        {
+            var integral = new Integral(t => Pow(E, -t), 0, double.PositiveInfinity);
+            var result = Integrals.RectangularInfinite(integral, 100000, 10);
+            Assert.That(result, Is.EqualTo(1).Within(0.0001));
         }
 
     }
