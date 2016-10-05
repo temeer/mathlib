@@ -17,6 +17,7 @@ namespace mathlib.Polynomials
                 return x => Pow(x, k) / Common.Factorial(k);
 
             var mul = 1;
+            k -= r;
             for (int j = 1; j <= r; j++)
             {
                 mul *= k + j;
