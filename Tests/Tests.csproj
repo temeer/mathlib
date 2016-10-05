@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Assert.cs" />
     <Compile Include="BinomialTests.cs" />
+    <Compile Include="CommonTests.cs" />
     <Compile Include="IntegralsTests.cs" />
     <Compile Include="LinearSystemTests.cs" />
     <Compile Include="MatrixTests.cs" />

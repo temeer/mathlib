@@ -41,5 +41,20 @@ namespace mathlib.Polynomials
             }
             return coeffs;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="alpha"></param>
+        /// <param name="n"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static double Calc(double alpha, int n, double x)
+        {
+            if (n == 0) return 1;
+            if (n == 1) return -x + alpha + 1;
+
+            return (-x + 2*n + alpha - 1)/n*Calc(alpha, n - 1, x) - (n + alpha - 1)/n*Calc(alpha, n - 2, x);
+        }
     }
 }
