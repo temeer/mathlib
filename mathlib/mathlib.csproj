@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>mathlib</RootNamespace>
     <AssemblyName>mathlib</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,9 +55,14 @@
     <Compile Include="Common.cs" />
     <Compile Include="DiffEq\Solver.cs" />
     <Compile Include="ChebRobustCalc.cs" />
+    <Compile Include="FixedPointIteration.cs" />
+    <Compile Include="FunctionsSystem.cs" />
+    <Compile Include="Polynomials\GenPolynom.cs" />
+    <Compile Include="Polynomials\GenPolynomOnNet.cs" />
     <Compile Include="Integrals.cs" />
     <Compile Include="LinearSystem.cs" />
     <Compile Include="Matrix.cs" />
+    <Compile Include="OrthogonalSystem.cs" />
     <Compile Include="Polynomials\Laguerre.cs" />
     <Compile Include="Polynomials\LaguerreSobolev.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

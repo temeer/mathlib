@@ -12,7 +12,7 @@ namespace mathlib
         }
 
         /// <summary>
-        /// Scalar mul of Lebesgue space with weigth $e^{-x}$. Laguerre polynomials with $\alpha=0$ are orthogonal in this space.
+        /// Scalar mul of Lebesgue space with weight $e^{-x}$. Laguerre polynomials with $\alpha=0$ are orthogonal in this space.
         /// </summary>
         /// <param name="f"></param>
         /// <param name="g"></param>
