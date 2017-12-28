@@ -53,8 +53,10 @@
   <ItemGroup>
     <Compile Include="Binomial.cs" />
     <Compile Include="Common.cs" />
+    <Compile Include="DiffEq\ANOperator.cs" />
     <Compile Include="DiffEq\Solver.cs" />
     <Compile Include="ChebRobustCalc.cs" />
+    <Compile Include="DynFunc.cs" />
     <Compile Include="FixedPointIteration.cs" />
     <Compile Include="FunctionsSystem.cs" />
     <Compile Include="Polynomials\GenPolynom.cs" />
