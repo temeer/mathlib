@@ -37,12 +37,17 @@
     <Reference Include="DiscreteFunctions">
       <HintPath>..\libs\DiscreteFunctions.dll</HintPath>
     </Reference>
-    <Reference Include="MoreLinq, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
-      <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Endless, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Endless.0.7.0-alpha1\lib\net47\Endless.dll</HintPath>
+    </Reference>
+    <Reference Include="MoreLinq, Version=2.9.21302.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.2.9.0\lib\net40\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,9 +58,10 @@
   <ItemGroup>
     <Compile Include="Binomial.cs" />
     <Compile Include="Common.cs" />
-    <Compile Include="DiffEq\ANOperator.cs" />
+    <Compile Include="DiffEq\AFiniteDimOperator.cs" />
     <Compile Include="DiffEq\Solver.cs" />
     <Compile Include="ChebRobustCalc.cs" />
+    <Compile Include="DiffEq\SpectralSolverIter.cs" />
     <Compile Include="DynFunc.cs" />
     <Compile Include="FixedPointIteration.cs" />
     <Compile Include="FunctionsSystem.cs" />
@@ -74,7 +80,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

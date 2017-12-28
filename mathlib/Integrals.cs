@@ -79,6 +79,23 @@ namespace mathlib
         }
 
         /// <summary>
+        /// Calculates integral for discretized f. 
+        /// It is supposed that nodes are increasing sequence of points.
+        /// </summary>
+        /// <param name="f">f[j]=f(nodes[j])</param>
+        /// <param name="nodes"></param>
+        /// <returns></returns>
+        public static double Trapezoid(double[] f, double[] nodes)
+        {
+            double sum = 0;
+            for (int i = 0; i < nodes.Length - 1; i++)
+            {
+                sum += (f[i + 1] + f[i]) * (nodes[i + 1] - nodes[i]);
+            }
+            return sum / 2;
+        }
+
+        /// <summary>
         /// Uses equidistant net
         /// </summary>
         /// <param name="f"></param>
