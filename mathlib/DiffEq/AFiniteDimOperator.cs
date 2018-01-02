@@ -16,7 +16,7 @@ namespace mathlib.DiffEq
         private readonly Func<double, double>[] _phiSobolev;
         private readonly int _partialSumOrder; // N
         private readonly int _m;
-
+        //private readonly FourierDiscretePartialSum _sobolevPartSum;
 
         public AFiniteDimOperator(double h, DynFunc<double>[] f,
             double[] initialValues, double[] nodes,
@@ -29,8 +29,10 @@ namespace mathlib.DiffEq
             _phi = phi;
             _phiSobolev = phiSobolev;
             _partialSumOrder = partialSumOrder;
-            _m = f.First().ArgsCount;
+            _m = f.First().ArgsCount - 1;
 
+            //_sobolevPartSum = new FourierDiscretePartialSum(_nodes, _phiSobolev);
+            
             // TODO: check arguments consistence
         }
 
@@ -71,7 +73,7 @@ namespace mathlib.DiffEq
                 fArgs[j][0] = _h * _nodes[j];
                 for (int k = 1; k < _m + 1; k++)
                 {
-                    fArgs[j][k] = eta[k][j];
+                    fArgs[j][k] = eta[k-1][j];
                 }
             }
 

@@ -64,6 +64,7 @@
     <Compile Include="DiffEq\SpectralSolverIter.cs" />
     <Compile Include="DynFunc.cs" />
     <Compile Include="FixedPointIteration.cs" />
+    <Compile Include="FourierDiscretePartialSum.cs" />
     <Compile Include="FunctionsSystem.cs" />
     <Compile Include="Polynomials\GenPolynom.cs" />
     <Compile Include="Polynomials\GenPolynomOnNet.cs" />

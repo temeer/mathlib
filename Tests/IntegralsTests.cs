@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using mathlib;
 using mathlib.Symbolic;
 using NUnit.Framework;
@@ -28,17 +29,18 @@ namespace Tests
                     if (x <= 0.5)
                         return -1;
                     return 0;
-                }, 0, 1, 0, 5, 0.001)
+                }, 0, 1, 0, 500, 0.001)
             };
 
         }
 
         public void RunTestCases(Func<TestCase, double> testedFunc)
         {
-            foreach (var testCase in TestCases)
+            for (var i = 0; i < TestCases.Count; i++)
             {
+                var testCase = TestCases[i];
                 var value = testedFunc(testCase);
-                Assert.AreEqual(testCase.Result, value, testCase.Delta);
+                Assert.AreEqual(testCase.Result, value, testCase.Delta, $"TestCase {i} failed");
             }
         }
 
@@ -80,6 +82,19 @@ namespace Tests
                 testCase => Integrals.Trapezoid(testCase.Func, GenerateNodes(testCase.A, testCase.B, testCase.NodesCount))
             );
         }
+
+        [Test]
+        public void TrapezoidDiscreteTest()
+        {
+            RunTestCases(
+                testCase =>
+                {
+                    var nodes = GenerateNodes(testCase.A, testCase.B, testCase.NodesCount);
+                    var fD = nodes.Select(t => testCase.Func(t)).ToArray();
+                    return Integrals.Trapezoid(fD, nodes);
+                });
+        }
+
 
         [Test]
         public void TrapezoidEquiDistantNetTest()
