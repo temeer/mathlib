@@ -4,11 +4,12 @@ namespace mathlib
 {
     public class FixedPointIteration
     {
-        public static T FindFixedPoint<T>(Func<T, T> f, T initialValue, int iterCount)
+        public static T FindFixedPoint<T>(Func<T, T> f, T initialValue, int iterCount, Action<T> observer = null)
         {
             var x = initialValue;
             for (int i = 0; i < iterCount; i++)
             {
+                observer?.Invoke(x);
                 x = f(x);
             }
             return x;

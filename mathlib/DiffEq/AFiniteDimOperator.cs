@@ -41,7 +41,7 @@ namespace mathlib.DiffEq
             if (c.Length != _m)
                 throw new ArgumentOutOfRangeException($"Argument c should have first dimension length equal to {_m}");
             // eta[k][j] = $\eta_k(t_j)$
-            var eta = Range(0, _m).AsParallel()
+            var eta = Range(0, _m)
                         .Select(k => CalcEta(k, c[k])).ToArray();
 
             return CalcCoeffs(eta);
@@ -55,7 +55,7 @@ namespace mathlib.DiffEq
         /// <returns></returns>
         private double[] CalcEta(int k, double[] c)
         {
-            return _nodes.AsParallel()
+            return _nodes
                 .Select(t => _initialValues[k] + _h * c.Zip(_phiSobolev.Skip(1), (ci, phiiPlus1) => ci * phiiPlus1(t)).Sum())
                 .ToArray();
         }
@@ -77,8 +77,8 @@ namespace mathlib.DiffEq
                 }
             }
 
-            return Range(0,_m).AsParallel()
-                .Select(i => Range(0, _partialSumOrder + 1).AsParallel()
+            return Range(0,_m)
+                .Select(i => Range(0, _partialSumOrder)
                     .Select(k => CalcCoeff(i, k, fArgs)).ToArray()).ToArray();
         }
 

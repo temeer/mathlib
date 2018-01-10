@@ -2,6 +2,7 @@
 
 namespace mathlib
 {
+    public delegate T VarFunc<T>(params T[] args);
     /// <summary>
     /// Arguments count of DynFunc can be set in runtime
     /// </summary>
@@ -10,7 +11,39 @@ namespace mathlib
         private readonly Func<T[], T> _func;
         public int ArgsCount { get; }
 
-        public DynFunc(int argsCount, Func<T[],T> func)
+
+        public DynFunc(int argsCount, Func<T, T> func)
+        {
+            _func = args => func(args[0]);
+            ArgsCount = argsCount;
+        }
+
+        public DynFunc(int argsCount, Func<T, T, T> func)
+        {
+            _func = args => func(args[0], args[1]);
+            ArgsCount = argsCount;
+        }
+
+        public DynFunc(int argsCount, Func<T, T, T, T> func)
+        {
+            _func = args => func(args[0], args[1], args[2]);
+            ArgsCount = argsCount;
+        }
+
+        public DynFunc(VarFunc<T> func)
+        {
+            _func = args => func(args[0], args[1], args[2]);
+            //ArgsCount = argsCount;
+        }
+
+        public DynFunc(int argsCount, Func<T, T, T, T, T> func)
+        {
+            _func = args => func(args[0], args[1], args[2], args[3]);
+            ArgsCount = argsCount;
+        }
+
+
+        public DynFunc(int argsCount, Func<T[], T> func)
         {
             _func = func;
             ArgsCount = argsCount;

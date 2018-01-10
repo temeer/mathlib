@@ -16,9 +16,9 @@ namespace mathlib
             _basisFunctions = basisFunctions;
         }
 
-        public DiscreteFunction2D GetValues(double[] coeffs)
+        public DiscreteFunction2D GetValues(params double[] coeffs)
         {
-            var values = _nodes.AsParallel()
+            var values = _nodes
                 .Select(t => coeffs.Zip(_basisFunctions, (ci, phii) => ci * phii(t)).Sum())
                 .ToArray();
             return new DiscreteFunction2D(_nodes, values);
@@ -26,7 +26,7 @@ namespace mathlib
 
         public DiscreteFunction2D GetValues(IEnumerable<double> coeffs)
         {
-            var values = _nodes.AsParallel()
+            var values = _nodes
                 .Select(t => _basisFunctions.Zip(coeffs, (phii, ci) => ci * phii(t)).Sum())
                 .ToArray();
             return new DiscreteFunction2D(_nodes, values);

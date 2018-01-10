@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DiscreteFunctions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\DiscreteFunctions.dll</HintPath>
+    </Reference>
     <Reference Include="MoreLinq, Version=2.9.21302.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
       <HintPath>..\packages\morelinq.2.9.0\lib\net40\MoreLinq.dll</HintPath>
     </Reference>
@@ -54,6 +58,8 @@
     <Compile Include="BinomialTests.cs" />
     <Compile Include="CommonTests.cs" />
     <Compile Include="FixedPointIterationTests.cs" />
+    <Compile Include="FourierDiscretePartialSumTests.cs" />
+    <Compile Include="FunctionsSystemTests.cs" />
     <Compile Include="IntegralsTests.cs" />
     <Compile Include="LinearSystemTests.cs" />
     <Compile Include="MatrixTests.cs" />

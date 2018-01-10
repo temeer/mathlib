@@ -40,14 +40,14 @@
     </Reference>
     <Reference Include="DiscreteFunctionsPlots, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dsp\LabUI\bin\Debug\DiscreteFunctionsPlots.dll</HintPath>
+      <HintPath>..\libs\DiscreteFunctionsPlots.dll</HintPath>
     </Reference>
     <Reference Include="Endless, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Endless.0.7.0-alpha1\lib\net47\Endless.dll</HintPath>
     </Reference>
     <Reference Include="GraphBuilders, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dsp\GraphBuilders\bin\debug\GraphBuilders.dll</HintPath>
+      <HintPath>..\libs\GraphBuilders.dll</HintPath>
     </Reference>
     <Reference Include="MoreLinq, Version=2.9.21302.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
       <HintPath>..\packages\morelinq.2.9.0\lib\net40\MoreLinq.dll</HintPath>
