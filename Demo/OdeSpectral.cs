@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -106,7 +107,7 @@ namespace Demo
             var f = new DynFunc<double>[]
             {
                 new DynFunc<double>(3, (x, y, z) => 1d),
-                new DynFunc<double>((x, y) => 1),
+                new DynFunc<double>(3, (x, y, z) => 1),
                 new DynFunc<double>(3, args => args[1]+1)
             };
 
@@ -137,6 +138,9 @@ namespace Demo
             }
             numSolutionPlotIter.DiscreteFunctions = solution;
             numSolutionPlotIter.Refresh();
+            var deltas = solution.Zip(yExact, (df, y) => Abs(df.Y.Last() - y(df.X.Last()))).ToArray();
+            Trace.WriteLine($"iter={iterCount}; N={partSumOrder}; dy1={deltas[0]};dy2={deltas[1]}");
+
         }
 
         private void ValueChanged(object sender, EventArgs e)

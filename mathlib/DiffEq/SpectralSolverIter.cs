@@ -41,6 +41,7 @@ namespace mathlib.DiffEq
 
             var result = FixedPointIteration.FindFixedPoint(c => op.GetValue(c), initCoeffs, iterCount, c =>
             {
+                return;
                 for (int i = 0; i < c.Length; i++)
                 {
                     Trace.WriteLine("");
@@ -50,6 +51,7 @@ namespace mathlib.DiffEq
                     }
                     
                 }
+                Trace.WriteLine("");
             });
             var sobolevPartSum = new FourierDiscretePartialSum(nodes, phiSobolev);
             return result.Select((coeffs, j) => sobolevPartSum.GetValues(new[]{_initialValues[j]}.Concat(coeffs.Select(c => c * h)))).ToArray();
