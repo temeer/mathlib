@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -96,6 +97,8 @@ namespace Demo
                 new DynFunc<double>(3, args => args[1]+1)
             };
 
+
+
             var h = 1d;
             return (initVals, f, h, new Func<double, double>[] { x => Exp(x), x => x + Exp(x) });
         }
@@ -106,13 +109,17 @@ namespace Demo
             var f = new DynFunc<double>[]
             {
                 new DynFunc<double>(3, (x, y, z) => 1d),
-                new DynFunc<double>((x, y) => 1),
+                new DynFunc<double>(2, (x, y, z) => 1 ),
                 new DynFunc<double>(3, args => args[1]+1)
             };
+
+            
 
             var h = 1d;
             return (initVals, f, h, new Func<double, double>[] { x => Exp(x), x => x + Exp(x) });
         }
+
+
 
         void SolveSystem(int partSumOrder, int iterCount, int nodesCount)
         {
@@ -147,4 +154,13 @@ namespace Demo
 
 
     }
+
+    //public static class ArrayExts
+    //{
+    //    public static void Deconstruct(this double[] arr, params out double[] x)
+    //    {
+    //        x = arr[0];
+    //        y = arr[1];
+    //    }
+    //}
 }

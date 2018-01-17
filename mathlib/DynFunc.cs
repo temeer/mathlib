@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace mathlib
 {
@@ -10,7 +11,6 @@ namespace mathlib
     {
         private readonly Func<T[], T> _func;
         public int ArgsCount { get; }
-
 
         public DynFunc(int argsCount, Func<T, T> func)
         {
@@ -30,11 +30,11 @@ namespace mathlib
             ArgsCount = argsCount;
         }
 
-        public DynFunc(VarFunc<T> func)
-        {
-            _func = args => func(args[0], args[1], args[2]);
-            //ArgsCount = argsCount;
-        }
+        //public DynFunc(Expression<VarFunc<T>> d)
+        //{
+        ////    _func = args => func(args[0], args[1], args[2]);
+        ////    //ArgsCount = argsCount;
+        //}
 
         public DynFunc(int argsCount, Func<T, T, T, T, T> func)
         {
