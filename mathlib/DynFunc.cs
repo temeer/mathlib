@@ -18,16 +18,16 @@ namespace mathlib
             ArgsCount = argsCount;
         }
 
-        public DynFunc(int argsCount, Func<T, T, T> func)
+        public DynFunc(Func<T, T, T> func)
         {
             _func = args => func(args[0], args[1]);
-            ArgsCount = argsCount;
+            ArgsCount = 2;
         }
 
-        public DynFunc(int argsCount, Func<T, T, T, T> func)
+        public DynFunc(Func<T, T, T, T> func)
         {
             _func = args => func(args[0], args[1], args[2]);
-            ArgsCount = argsCount;
+            ArgsCount = 3;
         }
 
         //public DynFunc(Expression<VarFunc<T>> d)
