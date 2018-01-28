@@ -66,16 +66,17 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="TeeChart, Version=4.1.2010.11307, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL">
+    <Reference Include="TeeChart, Version=4.1.2017.2152, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dsp\GraphBuilders\bin\debug\TeeChart.dll</HintPath>
+      <HintPath>..\libs\TeeChart.dll</HintPath>
     </Reference>
-    <Reference Include="TeeChart.Direct2D">
-      <HintPath>..\..\dsp\GraphBuilders\bin\debug\TeeChart.Direct2D.dll</HintPath>
-    </Reference>
-    <Reference Include="TeeChart.OpenGL, Version=4.1.2010.11307, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL">
+    <Reference Include="TeeChart.Direct2D, Version=4.1.2017.2152, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dsp\GraphBuilders\bin\debug\TeeChart.OpenGL.dll</HintPath>
+      <HintPath>..\libs\TeeChart.Direct2D.dll</HintPath>
+    </Reference>
+    <Reference Include="TeeChart.OpenGL, Version=4.1.2017.2152, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\TeeChart.OpenGL.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
