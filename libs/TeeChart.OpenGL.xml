@@ -4,26 +4,6 @@
         <name>TeeChart.OpenGL</name>
     </assembly>
     <members>
-        <member name="T:Steema.TeeChart.Drawing.GL.Imports">
-            <summary>
-            Access Windows libraries via external declarations 
-            </summary>
-        </member>
-        <member name="T:Steema.TeeChart.Drawing.GL.Imports.SIZE">
-            <summary>
-            Support structure for GetTextExtentPoint32
-            </summary>
-        </member>
-        <member name="T:Steema.TeeChart.Drawing.GL.Imports.GLUtesselator">
-            <summary>
-                Defines a GLU tesselator object.
-            </summary>
-        </member>
-        <member name="F:Steema.TeeChart.Drawing.GL.Imports.GLUtesselator.Data">
-            <summary>
-                Keeps the struct from being garbage collected prematurely.
-            </summary>
-        </member>
         <member name="T:Steema.TeeChart.Drawing.GL.TeeTexture">
             <summary>
             Rendering texture
@@ -55,12 +35,6 @@
             </summary>
             <param name="aOwner"></param>
         </member>
-        <member name="M:Steema.TeeChart.Drawing.GL.GLLightSource.GLColor">
-            <summary>
-            RGB Color Array with A Alpha value
-            </summary>
-            <returns></returns>
-        </member>
         <member name="P:Steema.TeeChart.Drawing.GL.GLLightSource.FixedPosition">
             <summary>
             Fix lighting position. When true the Light doesn't move with the rotated Chart.
@@ -75,6 +49,12 @@
             <summary>
             Light Color
             </summary>
+        </member>
+        <member name="M:Steema.TeeChart.Drawing.GL.GLLightSource.GLColor">
+            <summary>
+            RGB Color Array with A Alpha value
+            </summary>
+            <returns></returns>
         </member>
         <member name="P:Steema.TeeChart.Drawing.GL.GLLightSource.Visible">
             <summary>
@@ -154,12 +134,6 @@
             Use Activate to set the Chart to OpenGL.
             </summary>
         </member>
-        <member name="M:Steema.TeeChart.Drawing.GL.TeeOpenGL.SetChart(Steema.TeeChart.Chart)">
-            <summary>
-            Set the Chart to which to associate the TeeOpenGL component. 
-            </summary>
-            <param name="c"><seealso cref="T:Steema.TeeChart.Chart"/></param>
-        </member>
         <member name="P:Steema.TeeChart.Drawing.GL.TeeOpenGL.Active">
             <summary>
             Setting Active to true enable OpenGL for the Chart.
@@ -176,6 +150,12 @@
             Selects WebChart to which the TOpenGL Component is linked.
             <seealso cref="T:Steema.TeeChart.Web.WebChart"/>
             </summary>
+        </member>
+        <member name="M:Steema.TeeChart.Drawing.GL.TeeOpenGL.SetChart(Steema.TeeChart.Chart)">
+            <summary>
+            Set the Chart to which to associate the TeeOpenGL component. 
+            </summary>
+            <param name="c"><seealso cref="T:Steema.TeeChart.Chart"/></param>
         </member>
         <member name="P:Steema.TeeChart.Drawing.GL.TeeOpenGL.DrawStyle">
             <summary>
@@ -259,6 +239,11 @@
             <param name="c"><see cref="T:Steema.TeeChart.Chart"/></param>
             <param name="tgl"><see cref="T:Steema.TeeChart.Drawing.GL.TeeOpenGL"/></param>
         </member>
+        <member name="P:Steema.TeeChart.Drawing.GL.GraphicsGL.SupportsFullRotation">
+            <summary>
+            OpenGL Canvas can do rotation and elevation of more than 90 degree.
+            </summary>
+        </member>
         <member name="M:Steema.TeeChart.Drawing.GL.GraphicsGL.ShowImage(System.Drawing.Graphics)">
             <summary>
             Render Image to screen
@@ -292,7 +277,7 @@
             <param name="y">y pixel location</param>
             <param name="text">text string</param>
         </member>
-        <member name="M:Steema.TeeChart.Drawing.GL.GraphicsGL.TextOut(System.Int32,System.Int32,System.Int32,System.String)">
+        <member name="M:Steema.TeeChart.Drawing.GL.GraphicsGL.TextOut(System.Int32,System.Int32,System.Int32,System.String,System.Boolean)">
             <summary>
             Output text to Chart Canvas at Z depth
             </summary>
@@ -568,11 +553,6 @@
             </summary>
             <returns>Height in pixels of the text string.</returns>
         </member>
-        <member name="P:Steema.TeeChart.Drawing.GL.GraphicsGL.SupportsFullRotation">
-            <summary>
-            OpenGL Canvas can do rotation and elevation of more than 90 degree.
-            </summary>
-        </member>
         <member name="T:Steema.TeeChart.Drawing.GL.OpenGL">
             <summary>
             The OpenGL class wraps OpenGL 3D library.
@@ -594,15 +574,35 @@
             <param name="bitCount">ColorBits</param>
             <returns></returns>
         </member>
+        <member name="P:Steema.TeeChart.Drawing.GL.OpenGL.HBitmap">
+            <summary>
+            Image handle
+            </summary>
+        </member>
         <member name="M:Steema.TeeChart.Drawing.GL.OpenGL.SetPixelFormat(System.IntPtr,System.UInt32)">
             <summary>
             This function sets the pixel format of the underlying bitmap.
             </summary>
             <param name="bitCount">The bitcount.</param>
         </member>
-        <member name="P:Steema.TeeChart.Drawing.GL.OpenGL.HBitmap">
+        <member name="T:Steema.TeeChart.Drawing.GL.Imports">
             <summary>
-            Image handle
+            Access Windows libraries via external declarations 
+            </summary>
+        </member>
+        <member name="T:Steema.TeeChart.Drawing.GL.Imports.SIZE">
+            <summary>
+            Support structure for GetTextExtentPoint32
+            </summary>
+        </member>
+        <member name="T:Steema.TeeChart.Drawing.GL.Imports.GLUtesselator">
+            <summary>
+                Defines a GLU tesselator object.
+            </summary>
+        </member>
+        <member name="F:Steema.TeeChart.Drawing.GL.Imports.GLUtesselator.Data">
+            <summary>
+                Keeps the struct from being garbage collected prematurely.
             </summary>
         </member>
     </members>
