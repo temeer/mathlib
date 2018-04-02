@@ -1,4 +1,5 @@
-﻿using mathlib;
+﻿using System.Linq;
+using mathlib;
 using NUnit.Framework;
 
 namespace Tests
@@ -9,6 +10,35 @@ namespace Tests
         public void FactorialTest()
         {
             Assert.That(Common.Factorial(5), Is.EqualTo(120));
+        }
+
+        [Test]
+        public void ToBinaryTest()
+        {
+            var bin = Common.ToBinary(1);
+            Assert.AreEqual(1, bin.Length);
+            Assert.AreEqual(1, bin[0]);
+
+
+            bin = Common.ToBinary(2);
+            Assert.AreEqual(2, bin.Length);
+            Assert.AreEqual(new[]{0, 1}, bin);
+
+            bin = Common.ToBinary(3);
+            Assert.AreEqual(2, bin.Length);
+            Assert.AreEqual(new[] { 1, 1 }, bin);
+
+
+            bin = Common.ToBinary(150);
+            Assert.AreEqual(8, bin.Length);
+            Assert.AreEqual(new[] { 1,0,0,1,0,1,1,0 }.Reverse(), bin);
+        }
+
+        [Test]
+        public void ToBinaryDoubleTest()
+        {
+            var bin = Common.ToBinary(0.625, 3);
+            Assert.AreEqual(new[] {1,0,1}, bin);
         }
     }
 }

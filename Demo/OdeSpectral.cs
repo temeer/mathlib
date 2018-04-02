@@ -62,7 +62,7 @@ namespace Demo
 
         void SolveSystem(int partSumOrder, int iterCount, int nodesCount)
         {
-            var (initVals, f, h, yExact) = ExampleSystem3();
+            var (initVals, f, h, yExact) = ExampleSystem6();
             var nodes = Range(0, nodesCount).Select(j => 1d * j / nodesCount).ToArray();
             if (yExact != null)
             {
@@ -83,7 +83,13 @@ namespace Demo
             }
             numSolutionPlotIter.DiscreteFunctions = solution;
             numSolutionPlotIter.Refresh();
-            var deltas = solution.Zip(yExact, (df, y) => Abs(df.Y.Last() - y(df.X.Last()))).ToArray();
+            //var deltas = solution.Zip(yExact, (df, y) => Abs(df.Y.Last() - y(df.X.Last()))).ToArray();
+            var deltas = solution.Zip(yExact, (df, y) =>
+                {
+                    var eDf = new DiscreteFunction2D(y, df.X);
+                    return Sqrt((df - eDf).Y.Average(v => v * v));
+                }
+                ).ToArray();
             Trace.WriteLine($"iter={iterCount}; N={partSumOrder}; dy1={deltas[0]};dy2={deltas[1]}");
 
         }

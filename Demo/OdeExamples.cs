@@ -38,6 +38,44 @@ namespace Demo
             return (initVals, f, h, new Func<double, double>[] { x => Cos(x) + x * Sin(x) - x * Cos(x), x => 2 * (Sin(x) + Cos(x)) - 2 * x * Cos(x) });
         }
 
+        public static (double[] initVals, DynFunc<double>[] f, double h, Func<double, double>[] yExact) ExampleSystem4()
+        {
+            var initVals = new[] { 1d, 2 };
+            var f = new DynFunc<double>[]
+            {
+                new DynFunc<double>((x, y1, y2) => 4*y1 - 3*y2 + Sin(x)),
+                new DynFunc<double>((x, y1, y2) => 2*y1 - y2 - 2*Cos(x))
+            };
+
+            var h = 1d;
+            return (initVals, f, h, new Func<double, double>[] { x => Cos(x) - 2 * Sin(x), x => 2 * (Cos(x) - Sin(x)) });
+        }
+
+        public static (double[] initVals, DynFunc<double>[] f, double h, Func<double, double>[] yExact) ExampleSystem5()
+        {
+            var initVals = new[] { 1d, 2 };
+            var f = new DynFunc<double>[]
+            {
+                new DynFunc<double>((x, y1, y2) => (4d*y1 - 3d*y2 + Sin(2*PI*x))*2*PI),
+                new DynFunc<double>((x, y1, y2) => (2d*y1 - y2 - 2d*Cos(2*PI*x))*2*PI)
+            };
+
+            var h = 1d;
+            return (initVals, f, h, new Func<double, double>[] { x => Cos(2 * PI * x) - 2 * Sin(2 * PI * x), x => 2 * (Cos(2 * PI * x) - Sin(2 * PI * x)) });
+        }
+
+        public static (double[] initVals, DynFunc<double>[] f, double h, Func<double, double>[] yExact) ExampleSystem6()
+        {
+            var initVals = new[] { 0, 0d };
+            var f = new DynFunc<double>[]
+            {
+                new DynFunc<double>((x, y1, y2) => 11 - 20 * y2 * y2),
+                new DynFunc<double>((x, y1, y2) => 2.5*(1+Sqrt(1-(y1-x)*(y1-x))))
+            };
+
+            var h = 0.1d;
+            return (initVals, f, h, new Func<double, double>[] { x => x + Sin(10*x), x => Sin(5*x) });
+        }
         public static (double[] initVals, DynFunc<double>[] f, double h, Func<double, double>[] yExact) ExampleSystem2()
         {
             var initVals = new[] { 0d, 1, 1 };

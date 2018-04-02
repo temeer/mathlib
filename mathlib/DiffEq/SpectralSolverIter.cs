@@ -30,6 +30,11 @@ namespace mathlib.DiffEq
         {
         }
 
+        //public DiscreteFunction2D[] Solve(double[] nodes, double h, int partialSumOrder, int iterCount)
+        //{
+
+        //}
+
         public DiscreteFunction2D[] Solve(double[] nodes, double h, int partialSumOrder, int iterCount)
         {
             //var f = new DynFunc<double>[] {new D};
@@ -41,13 +46,13 @@ namespace mathlib.DiffEq
 
             var result = FixedPointIteration.FindFixedPoint(c => op.GetValue(c), initCoeffs, iterCount, c =>
             {
-                return;
+                
                 for (int i = 0; i < c.Length; i++)
                 {
                     Trace.WriteLine("");
                     for (int j = 0; j < c[i].Length; j++)
                     {
-                        Trace.Write($"{c[i][j],-5:F3} ");
+                        Trace.Write($"{c[i][j],-5:F10} ");
                     }
                     
                 }
