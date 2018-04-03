@@ -67,6 +67,7 @@
     <Compile Include="FourierDiscretePartialSum.cs" />
     <Compile Include="FunctionsSystem.cs" />
     <Compile Include="Functions\Walsh.cs" />
+    <Compile Include="Functions\WalshSobolev.cs" />
     <Compile Include="Polynomials\GenPolynom.cs" />
     <Compile Include="Polynomials\GenPolynomOnNet.cs" />
     <Compile Include="Integrals.cs" />
