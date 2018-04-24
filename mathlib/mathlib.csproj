@@ -65,9 +65,11 @@
     <Compile Include="DynFunc.cs" />
     <Compile Include="FixedPointIteration.cs" />
     <Compile Include="FourierDiscretePartialSum.cs" />
+    <Compile Include="FourierSobolevHaar.cs" />
     <Compile Include="FunctionsSystem.cs" />
     <Compile Include="Functions\Walsh.cs" />
     <Compile Include="Functions\WalshSobolev.cs" />
+    <Compile Include="MixHaar.cs" />
     <Compile Include="Polynomials\GenPolynom.cs" />
     <Compile Include="Polynomials\GenPolynomOnNet.cs" />
     <Compile Include="Integrals.cs" />
