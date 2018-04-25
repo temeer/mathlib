@@ -23,21 +23,18 @@ namespace Demo
         private int lengthX;
 
         private double[] p;
-        private double[] x;
-        private double[] y1;
-        private double[] y2;
 
         public FourierSobolevHaarExample()
         {
             InitializeComponent();
 
-            lengthP = (int) numP.Value;
-            lengthX = (int) numericUpDown2.Value;
+            lengthP = (int) NumP.Value;
+            lengthX = (int) NumX.Value;
             
-            Calculations();
+            FindP();
 
-            _plot1.DiscreteFunction = new DiscreteFunction2D(x, y1);
-            _plot2.DiscreteFunction = new DiscreteFunction2D(x, y2);
+            _plot1.DiscreteFunction = new DiscreteFunction2D(FourierSobolevHaar.Calc(p), 0, 1, lengthX);
+            _plot2.DiscreteFunction = new DiscreteFunction2D(FourierSobolevHaar.FastCalc(p), 0, 1, lengthX);
 
             GraphBuilder.DrawPlot(_plot1);
             GraphBuilder.DrawPlot(_plot2);
@@ -45,49 +42,39 @@ namespace Demo
             Refresh();
         }
 
-        private void Calculations()
+        private void NumP_ValueChanged(object sender, EventArgs e)
+        {
+            lengthP = (int)NumP.Value;
+
+            FindP();
+
+            PlotRefresh();
+        }
+
+        private void NumX_ValueChanged(object sender, EventArgs e)
+        {
+            lengthX = (int)NumX.Value;
+
+            PlotRefresh();
+        }
+
+        private void FindP()
         {
             p = new double[lengthP];
-            x = new double[lengthX];
-            y1 = new double[lengthX];
-            y2 = new double[lengthX];
 
             for (int i = 0; i < lengthP; i++)
             {
                 p[i] = 1;
             }
-
-            for (int i = 0; i < lengthX; i++)
-            {
-                x[i] = i / (lengthX - 1.0);
-                y1[i] = FourierSobolevHaar.Calc(p, x[i]);
-                y2[i] = FourierSobolevHaar.FastCalc(p, x[i]);
-            }
-        }
-
-        private void numP_ValueChanged(object sender, EventArgs e)
-        {
-            lengthP = (int)numP.Value;
-
-            PlotRefresh();
         }
 
         private void PlotRefresh()
         {
-            Calculations();
-
-            _plot1.DiscreteFunction = new DiscreteFunction2D(x, y1);
-            _plot2.DiscreteFunction = new DiscreteFunction2D(x, y2);
+            _plot1.DiscreteFunction = new DiscreteFunction2D(FourierSobolevHaar.Calc(p), 0, 1, lengthX);
+            _plot2.DiscreteFunction = new DiscreteFunction2D(FourierSobolevHaar.FastCalc(p), 0, 1, lengthX);
 
             _plot1.Refresh();
             _plot2.Refresh();
-        }
-
-        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
-        {
-            lengthX = (int)numericUpDown2.Value;
-
-            PlotRefresh();
         }
     }
 }

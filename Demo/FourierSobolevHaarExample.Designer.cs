@@ -30,17 +30,17 @@
         {
             this.labelP = new System.Windows.Forms.Label();
             this.labelX = new System.Windows.Forms.Label();
-            this.numP = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.NumP = new System.Windows.Forms.NumericUpDown();
+            this.NumX = new System.Windows.Forms.NumericUpDown();
             this.panelBottom.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numP)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumX)).BeginInit();
             this.SuspendLayout();
             // 
             // panelBottom
             // 
-            this.panelBottom.Controls.Add(this.numericUpDown2);
-            this.panelBottom.Controls.Add(this.numP);
+            this.panelBottom.Controls.Add(this.NumX);
+            this.panelBottom.Controls.Add(this.NumP);
             this.panelBottom.Controls.Add(this.labelX);
             this.panelBottom.Controls.Add(this.labelP);
             this.panelBottom.Location = new System.Drawing.Point(0, 440);
@@ -48,8 +48,8 @@
             this.panelBottom.Controls.SetChildIndex(this.seriesListBox, 0);
             this.panelBottom.Controls.SetChildIndex(this.labelP, 0);
             this.panelBottom.Controls.SetChildIndex(this.labelX, 0);
-            this.panelBottom.Controls.SetChildIndex(this.numP, 0);
-            this.panelBottom.Controls.SetChildIndex(this.numericUpDown2, 0);
+            this.panelBottom.Controls.SetChildIndex(this.NumP, 0);
+            this.panelBottom.Controls.SetChildIndex(this.NumX, 0);
             // 
             // labelP
             // 
@@ -69,53 +69,53 @@
             this.labelX.TabIndex = 3;
             this.labelX.Text = "x.Length";
             // 
-            // numP
+            // NumP
             // 
-            this.numP.Location = new System.Drawing.Point(463, 6);
-            this.numP.Maximum = new decimal(new int[] {
+            this.NumP.Location = new System.Drawing.Point(463, 6);
+            this.NumP.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
-            this.numP.Minimum = new decimal(new int[] {
+            this.NumP.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numP.Name = "numP";
-            this.numP.Size = new System.Drawing.Size(120, 20);
-            this.numP.TabIndex = 4;
-            this.numP.ThousandsSeparator = true;
-            this.numP.Value = new decimal(new int[] {
+            this.NumP.Name = "NumP";
+            this.NumP.Size = new System.Drawing.Size(120, 20);
+            this.NumP.TabIndex = 4;
+            this.NumP.ThousandsSeparator = true;
+            this.NumP.Value = new decimal(new int[] {
             100,
             0,
             0,
             0});
-            this.numP.ValueChanged += new System.EventHandler(this.numP_ValueChanged);
+            this.NumP.ValueChanged += new System.EventHandler(this.NumP_ValueChanged);
             // 
-            // numericUpDown2
+            // NumX
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(463, 32);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
+            this.NumX.Location = new System.Drawing.Point(463, 32);
+            this.NumX.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
-            this.numericUpDown2.Minimum = new decimal(new int[] {
+            this.NumX.Minimum = new decimal(new int[] {
             2,
             0,
             0,
             0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown2.TabIndex = 5;
-            this.numericUpDown2.ThousandsSeparator = true;
-            this.numericUpDown2.Value = new decimal(new int[] {
+            this.NumX.Name = "NumX";
+            this.NumX.Size = new System.Drawing.Size(120, 20);
+            this.NumX.TabIndex = 5;
+            this.NumX.ThousandsSeparator = true;
+            this.NumX.Value = new decimal(new int[] {
             1024,
             0,
             0,
             0});
-            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
+            this.NumX.ValueChanged += new System.EventHandler(this.NumX_ValueChanged);
             // 
             // FourierSobolevHaarExample
             // 
@@ -126,8 +126,8 @@
             this.Text = "FourierSobolevHaar";
             this.panelBottom.ResumeLayout(false);
             this.panelBottom.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numP)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumX)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -135,9 +135,9 @@
 
         #endregion
 
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown NumX;
         private System.Windows.Forms.Label labelX;
         private System.Windows.Forms.Label labelP;
-        public System.Windows.Forms.NumericUpDown numP;
+        public System.Windows.Forms.NumericUpDown NumP;
     }
 }
