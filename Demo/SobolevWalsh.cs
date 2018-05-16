@@ -13,6 +13,8 @@ using GraphBuilders;
 using mathlib;
 using mathlib.Functions;
 using mathlib.Symbolic;
+using static System.Linq.Enumerable;
+using static System.Math;
 
 namespace Demo
 {
@@ -33,13 +35,18 @@ namespace Demo
         private void nupNum_ValueChanged(object sender, EventArgs e)
         {
             var n = (int)nupNum.Value;
-            var pow2 = (int)Math.Pow(2, Math.Floor(Math.Log(n - 1, 2)));
+            var pow2 = (int)Pow(2, Floor(Log(n - 1, 2)));
+
+            var y = Range(1, 20).Select(k => Sum((int)(Pow(2, k) + 1))(1.0 / Pow(2, k + 1))).ToArray();
+            _plot.DiscreteFunction = y;
+            _plot.Refresh();
+
             //_plot.DiscreteFunction =
             //    new DiscreteFunction2D(WalshSobolev.Get(n), 0, 1, 1024);
             //_plot.Refresh();
-            _plot2.DiscreteFunction =
-               new DiscreteFunction2D(WalshSobolev.Get2(n), 0, 1, 1024);
-            _plot2.Refresh();
+            //_plot2.DiscreteFunction =
+            //   new DiscreteFunction2D(WalshSobolev.Get2(n), 0, 1, 1024);
+            //_plot2.Refresh();
 
             //_plot.DiscreteFunction = new DiscreteFunction2D(x => W12(Math.Pow(2, n) * x) / Math.Pow(2, n), 0, 1, 1024 * 64);
             //_plot.Refresh();
@@ -72,6 +79,8 @@ namespace Demo
             x = x - (int)x;
             return x < 0.5 ? x : 1 - x;
         }
+
+        //private Func<double, double> w12Di()
 
         private Func<double, double> SumOfSquares(int n)
         {
