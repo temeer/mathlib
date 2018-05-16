@@ -35,5 +35,29 @@ namespace Tests
 
             }
         }
+
+        [Test]
+        public void GetMatrixTest()
+        {
+            var matrix = Walsh.GetMatrix(0);
+            Assert.AreEqual(1, matrix.GetLength(0));
+            Assert.AreEqual(1, matrix.GetLength(1));
+            Assert.AreEqual(1, matrix[0, 0]);
+
+            matrix = Walsh.GetMatrix(1);
+            Assert.AreEqual(2, matrix.GetLength(0));
+            Assert.AreEqual(2, matrix.GetLength(1));
+            Assert.AreEqual(new sbyte[,] { { 1, 1 }, { 1, -1 } }, matrix);
+
+            matrix = Walsh.GetMatrix(2);
+            Assert.AreEqual(4, matrix.GetLength(0));
+            Assert.AreEqual(4, matrix.GetLength(1));
+            Assert.AreEqual(new sbyte[,] { { 1, 1, 1, 1 }, { 1, 1, -1, -1 }, {1, -1, 1, -1}, {1, -1, -1, 1} }, matrix);
+
+            matrix = Walsh.GetMatrix(3);
+            Assert.AreEqual(8, matrix.GetLength(0));
+            Assert.AreEqual(8, matrix.GetLength(1));
+            Assert.AreEqual(-1, matrix[5,4]);
+        }
     }
 }

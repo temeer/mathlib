@@ -66,6 +66,7 @@
     <Compile Include="FixedPointIteration.cs" />
     <Compile Include="FourierDiscretePartialSum.cs" />
     <Compile Include="FourierSobolevHaar.cs" />
+    <Compile Include="FourierWalsh.cs" />
     <Compile Include="FunctionsSystem.cs" />
     <Compile Include="Functions\Walsh.cs" />
     <Compile Include="Functions\WalshSobolev.cs" />
