@@ -6,6 +6,7 @@ namespace mathlib
 {
     public interface IFunctionsSystem
     {
+        Segment OrthogonalitySegment { get; }
         Func<double, double> Get(int k);
         IEnumerable<double> GetValuesOnNet(int k, double[] nodes);
     }
@@ -13,7 +14,7 @@ namespace mathlib
     public abstract class FunctionsSystem : IFunctionsSystem
     {
         public abstract Func<double, double> Get(int k);
-
+        public abstract Segment OrthogonalitySegment { get; }
         public virtual IEnumerable<double> GetValuesOnNet(int k, double[] nodes) =>
             nodes.Select(Get(k));
     }
@@ -28,6 +29,8 @@ namespace mathlib
                 return x => 1;
             return x => Sqrt2 * Math.Cos(k * Math.PI * x);
         }
+
+        public override Segment OrthogonalitySegment => new Segment(0, 1);
     }
 
     public class SobolevCosSystem : FunctionsSystem
@@ -44,5 +47,7 @@ namespace mathlib
                     return x => Sqrt2OverPi * Math.Sin(k * Math.PI * x) / k;
             }
         }
+
+        public override Segment OrthogonalitySegment => new Segment(0, 1);
     }
 }

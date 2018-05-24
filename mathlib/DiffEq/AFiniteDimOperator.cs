@@ -8,7 +8,6 @@ namespace mathlib.DiffEq
 {
     public class AFiniteDimOperator
     {
-        private readonly double _h;
         private readonly DynFunc<double>[] _f;
         private readonly double[] _initialValues;
         private readonly double[] _nodes;
@@ -18,11 +17,10 @@ namespace mathlib.DiffEq
         private readonly int _m;
         //private readonly FourierDiscretePartialSum _sobolevPartSum;
 
-        public AFiniteDimOperator(double h, DynFunc<double>[] f,
+        public AFiniteDimOperator(DynFunc<double>[] f,
             double[] initialValues, double[] nodes,
             Func<double, double>[] phi, Func<double, double>[] phiSobolev, int partialSumOrder)
         {
-            _h = h;
             _f = f;
             _initialValues = initialValues;
             _nodes = nodes;
@@ -56,7 +54,7 @@ namespace mathlib.DiffEq
         private double[] CalcEta(int k, double[] c)
         {
             return _nodes
-                .Select(t => _initialValues[k] + _h * c.Zip(_phiSobolev.Skip(1), (ci, phiiPlus1) => ci * phiiPlus1(t)).Sum())
+                .Select(t => _initialValues[k] + c.Zip(_phiSobolev.Skip(1), (ci, phiiPlus1) => ci * phiiPlus1(t)).Sum())
                 .ToArray();
         }
 
@@ -70,7 +68,7 @@ namespace mathlib.DiffEq
             for (int j = 0; j < _nodes.Length; j++)
             {
                 fArgs[j] = new double[_m+1];
-                fArgs[j][0] = _h * _nodes[j];
+                fArgs[j][0] = _nodes[j];
                 for (int k = 1; k < _m + 1; k++)
                 {
                     fArgs[j][k] = eta[k-1][j];

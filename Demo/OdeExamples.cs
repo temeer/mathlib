@@ -74,7 +74,7 @@ namespace Demo
             };
 
             var h = 0.1d;
-            return (initVals, f, h, new Func<double, double>[] { x => x + Sin(10*x), x => Sin(5*x) });
+            return (initVals, f, h, new Func<double, double>[] { x => x + Sin(10 * x), x => Sin(5 * x) });
         }
         public static (double[] initVals, DynFunc<double>[] f, double h, Func<double, double>[] yExact) ExampleSystem2()
         {
@@ -102,19 +102,20 @@ namespace Demo
             return (y0, f, h, yExact);
         }
 
-        public static (double y0, Func<double, double, double> f, double h, Func<double, double> yExact) Example2()
+        public static (Segment segment, double y0, Func<double, double, double> f, Func<double, double> yExact) Example2()
         {
             //var x0 = 0d;
-            var y0 = 0d;
-            Func<double, double, double> f = (x, y) => y * y - x * x;
+            Func<double, double, double> f = (x, y) => x * y;
             //var b = 1;
 
-            var h = 1d;
-            Func<double, double> yExact = null;
-            return (y0, f, h, yExact);
+            //var h = 1d;
+            Func<double, double> yExact = x => Exp(x * x / 2) / 10;
+            var segment = new Segment(0.2, 0.5);
+            var y0 = yExact(segment.Start);
+            return (segment, y0, f, yExact);
         }
 
-        public static (double y0, Func<double, double, double> f, double h, Func<double, double> yExact) Example3()
+        public static (Segment x, double y0, Func<double, double, double> f, double h, Func<double, double> yExact) Example3()
         {
             //var x0 = 0d;
             var y0 = 1d;
@@ -122,8 +123,8 @@ namespace Demo
             //var b = 1;
 
             var h = 0.5d;
-            Func<double, double> yExact = x => 1.0 / (Log(1 - x * x) + 1);
-            return (y0, f, h, yExact);
+            double YExact(double x) => 1.0 / (Log(1 - x * x) + 1);
+            return (new Segment(0, 0.5), y0, f, h, YExact);
         }
     }
 }

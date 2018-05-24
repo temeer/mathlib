@@ -37,21 +37,22 @@ namespace Demo
 
         void Solve(int partSumOrder, int iterCount, int nodesCount)
         {
-            var (y0, f, h, yExact) = Example3();
-            var nodes = Range(0, nodesCount).Select(j => 1d * j / nodesCount).ToArray();
+            var (segment, y0, f, yExact) = Example2();
+            var nodes = Range(0, nodesCount).Select(j => segment.Start + segment.Length * j / nodesCount).ToArray();
             if (yExact != null)
             {
+                //nodes = Range(0, nodesCount).Select(j => 1.0*j / nodesCount).ToArray();
                 exactSolutionPlot.DiscreteFunctions = new[] { new DiscreteFunction2D(x => yExact(x), nodes) };
                 exactSolutionPlot.Refresh();
             }
-
+            //nodes = Range(0, nodesCount).Select(j => segment.Start + segment.Length * j / nodesCount).ToArray();
             var cosSystem = new CosSystem();
             var sobCosSystem = new SobolevCosSystem();
 
-            var solverIter = new SpectralSolverIter(f, y0, Natural.NumbersWithZero.Select(k => cosSystem.Get(k)),
+            var solverIter = new SpectralSolverIter(Natural.NumbersWithZero.Select(k => cosSystem.Get(k)),
                 Natural.NumbersWithZero.Select(k => sobCosSystem.Get(k)));
-            var df = solverIter.Solve(nodes, h, partSumOrder, iterCount).First();
-            df.X = df.X.Select(x => x * h).ToArray();
+            var df = solverIter.Solve(segment, f, nodes, new []{y0}, partSumOrder, iterCount).First();
+            //df.X = df.X.Select(x => x).ToArray();
             numSolutionPlotIter.DiscreteFunctions = new[] { df };
             numSolutionPlotIter.Refresh();
         }
@@ -74,9 +75,9 @@ namespace Demo
             var cosSystem = new CosSystem();
             var sobCosSystem = new SobolevCosSystem();
 
-            var solverIter = new SpectralSolverIter(f, initVals, Natural.NumbersWithZero.Select(k => cosSystem.Get(k)),
+            var solverIter = new SpectralSolverIter(Natural.NumbersWithZero.Select(k => cosSystem.Get(k)),
                 Natural.NumbersWithZero.Select(k => sobCosSystem.Get(k)));
-            var solution = solverIter.Solve(nodes, h, partSumOrder, iterCount);
+            var solution = solverIter.Solve(f, nodes, initVals, partSumOrder, iterCount);
             foreach (var s in solution)
             {
                 s.X = s.X.Select(x => x * h).ToArray();
@@ -96,8 +97,8 @@ namespace Demo
 
         private void ValueChanged(object sender, EventArgs e)
         {
-            //Solve((int)nupOrder.Value, (int)nupIterCount.Value, (int)nupNodesCount.Value);
-            SolveSystem((int)nupOrder.Value, (int)nupIterCount.Value, (int)nupNodesCount.Value);
+            Solve((int)nupOrder.Value, (int)nupIterCount.Value, (int)nupNodesCount.Value);
+            //SolveSystem((int)nupOrder.Value, (int)nupIterCount.Value, (int)nupNodesCount.Value);
         }
 
 

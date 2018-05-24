@@ -81,6 +81,7 @@
     <Compile Include="Polynomials\LaguerreSobolev.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScalarMul.cs" />
+    <Compile Include="Segment.cs" />
     <Compile Include="Symbolic\Integral.cs" />
   </ItemGroup>
   <ItemGroup>

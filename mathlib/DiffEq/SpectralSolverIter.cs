@@ -9,44 +9,42 @@ namespace mathlib.DiffEq
 {
     public class SpectralSolverIter
     {
-        private readonly DynFunc<double>[] _f;
-        private readonly double[] _initialValues;
         private readonly IEnumerable<Func<double, double>> _phi;
         private readonly IEnumerable<Func<double, double>> _phiSobolev;
 
-        public SpectralSolverIter(DynFunc<double>[] f, double[] initialValues,
-            IEnumerable<Func<double, double>> phi, IEnumerable<Func<double, double>> phiSobolev)
+        public SpectralSolverIter(IEnumerable<Func<double, double>> phi, IEnumerable<Func<double, double>> phiSobolev)
         {
-            _f = f;
-            _initialValues = initialValues;
             _phi = phi;
             _phiSobolev = phiSobolev;
         }
 
-        public SpectralSolverIter(Func<double, double, double> f, double initialValue,
-            IEnumerable<Func<double, double>> phi, IEnumerable<Func<double, double>> phiSobolev)
-            : this(new[] { new DynFunc<double>(2, doubles => f(doubles[0], doubles[1])) },
-                  new[] { initialValue }, phi, phiSobolev)
-        {
-        }
+
 
         //public DiscreteFunction2D[] Solve(double[] nodes, double h, int partialSumOrder, int iterCount)
         //{
 
         //}
 
-        public DiscreteFunction2D[] Solve(double[] nodes, double h, int partialSumOrder, int iterCount)
+        /// <summary>
+        /// Solves ODE system on [0,1]
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="nodes">Nodes should be inside [0,1]</param>
+        /// <param name="initialValues">Initial values are considered as solution values at 0 point</param>
+        /// <param name="partialSumOrder"></param>
+        /// <param name="iterCount"></param>
+        /// <returns></returns>
+        public DiscreteFunction2D[] Solve(DynFunc<double>[] f, double[] nodes, double[] initialValues, int partialSumOrder, int iterCount)
         {
             //var f = new DynFunc<double>[] {new D};
             var phiSobolev = _phiSobolev.Take(partialSumOrder + 1).ToArray();
-            var op = new AFiniteDimOperator(h, _f, _initialValues, nodes,
+            var op = new AFiniteDimOperator(f, initialValues, nodes,
                 _phi.Take(partialSumOrder + 1).ToArray(), phiSobolev, partialSumOrder);
-            var m = _f.First().ArgsCount - 1;
-            var initCoeffs = Range(0, m).Select(j => Range(0, partialSumOrder).Select(k => 1.0 / (k+1)).ToArray()).ToArray();
+            var m = f.First().ArgsCount - 1;
+            var initCoeffs = Range(0, m).Select(j => Range(0, partialSumOrder).Select(k => 1.0 / (k + 1)).ToArray()).ToArray();
 
             var result = FixedPointIteration.FindFixedPoint(c => op.GetValue(c), initCoeffs, iterCount, c =>
             {
-                
                 for (int i = 0; i < c.Length; i++)
                 {
                     Trace.WriteLine("");
@@ -54,12 +52,55 @@ namespace mathlib.DiffEq
                     {
                         Trace.Write($"{c[i][j],-5:F10} ");
                     }
-                    
                 }
                 Trace.WriteLine("");
             });
             var sobolevPartSum = new FourierDiscretePartialSum(nodes, phiSobolev);
-            return result.Select((coeffs, j) => sobolevPartSum.GetValues(new[]{_initialValues[j]}.Concat(coeffs.Select(c => c * h)))).ToArray();
+            return result.Select((coeffs, j) => sobolevPartSum.GetValues(new[] { initialValues[j] }.Concat(coeffs))).ToArray();
         }
+
+        public DiscreteFunction2D[] Solve(Func<double, double, double> f, double[] nodes, double[] initialValues,
+            int partialSumOrder, int iterCount) =>
+            Solve(new[] { new DynFunc<double>(2, doubles => f(doubles[0], doubles[1])) }, nodes, initialValues,
+                partialSumOrder, iterCount);
+
+        /// <summary>
+        /// Solves ODE system on segment
+        /// </summary>
+        /// <param name="segment"></param>
+        /// <param name="f"></param>
+        /// <param name="nodes">Nodes should be inside segment</param>
+        /// <param name="initialValues"></param>
+        /// <param name="partialSumOrder"></param>
+        /// <param name="iterCount"></param>
+        /// <returns></returns>
+        public DiscreteFunction2D[] Solve(Segment segment, DynFunc<double>[] f, double[] nodes, double[] initialValues,
+            int partialSumOrder, int iterCount)
+        {
+            var h = segment.Length;
+            // to apply iter method we should linear transform segment to [0,1]
+            // transformedF(x,y)=(segment.End-segment.Start)*f((segment.End-segment.Start)x+segment.Start)
+            var transformedF = f.Select(fj =>
+                new DynFunc<double>(fj.ArgsCount, doubles =>
+                {
+                    var newDoubles = new double[doubles.Length];
+                    Array.Copy(doubles, newDoubles, doubles.Length);
+                    newDoubles[0] = h * doubles[0] + segment.Start;
+                    return h * fj.Invoke(newDoubles);
+                })).ToArray();
+
+            var dfs = Solve(transformedF, nodes.Select(x => (x - segment.Start) / h).ToArray(),
+                initialValues, partialSumOrder, iterCount);
+
+            // dfs is defined on [0,1] and we should transform it to [segment.Start, segment.End]
+            return dfs.Select(df =>
+                new DiscreteFunction2D(df.X.Select(x => h * x + segment.Start).ToArray(),
+                                       df.Y)).ToArray();
+        }
+
+        public DiscreteFunction2D[] Solve(Segment segment, Func<double, double, double> f, double[] nodes, double[] initialValues,
+            int partialSumOrder, int iterCount) =>
+            Solve(segment, new[] { new DynFunc<double>(2, doubles => f(doubles[0], doubles[1])) }, nodes, initialValues,
+                partialSumOrder, iterCount);
     }
 }
