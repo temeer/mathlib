@@ -26,19 +26,28 @@ namespace Demo
     {
         MultiPlot2D exactSolutionPlot = new MultiPlot2D(name: "Точное решение");
         MultiPlot2D numSolutionPlotIter = new MultiPlot2D(name: "Численное решение итерационным методом");
+        MultiPlot2D numSolutionPlotIter2 = new MultiPlot2D(name: "Численное решение итерационным методом2");
+
+        private static Color[] Colors = new[]
+        {
+            Color.Red, Color.DarkGreen
+        };
+
         public OdeSpectral()
         {
             InitializeComponent();
             GraphBuilder.DrawPlot(exactSolutionPlot);
             GraphBuilder.DrawPlot(numSolutionPlotIter);
+            //GraphBuilder.DrawPlot(numSolutionPlotIter2);
         }
 
-        
+
 
         void Solve(int partSumOrder, int iterCount, int nodesCount)
         {
-            var (segment, y0, f, yExact) = Example2();
-            var nodes = Range(0, nodesCount).Select(j => segment.Start + segment.Length * j / nodesCount).ToArray();
+            var chunksCount = (int)nupChunksCount.Value;
+            var (segment, y0, f, yExact) = Example3();
+            var nodes = Range(0, nodesCount).Select(j => segment.Start + segment.Length * j / (nodesCount - 1)).ToArray();
             if (yExact != null)
             {
                 //nodes = Range(0, nodesCount).Select(j => 1.0*j / nodesCount).ToArray();
@@ -51,20 +60,24 @@ namespace Demo
 
             var solverIter = new SpectralSolverIter(Natural.NumbersWithZero.Select(k => cosSystem.Get(k)),
                 Natural.NumbersWithZero.Select(k => sobCosSystem.Get(k)));
-            var df = solverIter.Solve(segment, f, nodes, new []{y0}, partSumOrder, iterCount).First();
+            var df = solverIter.Solve(segment, chunksCount, f, nodes, new[] { y0 }, partSumOrder, iterCount);
             //df.X = df.X.Select(x => x).ToArray();
-            numSolutionPlotIter.DiscreteFunctions = new[] { df };
+            numSolutionPlotIter.Colors = Colors;
+            numSolutionPlotIter.DiscreteFunctions = df.Select(d => d[0]).ToArray();
             numSolutionPlotIter.Refresh();
+            //numSolutionPlotIter2.DiscreteFunctions = df[1];
+            //numSolutionPlotIter2.Refresh();
         }
 
-        
+
 
 
 
         void SolveSystem(int partSumOrder, int iterCount, int nodesCount)
         {
-            var (initVals, f, h, yExact) = ExampleSystem6();
-            var nodes = Range(0, nodesCount).Select(j => 1d * j / nodesCount).ToArray();
+            var chunksCount = (int)nupChunksCount.Value;
+            var (segment, initVals, f, h, yExact) = ExampleSystem6();
+            var nodes = Range(0, nodesCount).Select(j => segment.Start + segment.Length * j / (nodesCount - 1)).ToArray();
             if (yExact != null)
             {
                 exactSolutionPlot.DiscreteFunctions =
@@ -77,21 +90,23 @@ namespace Demo
 
             var solverIter = new SpectralSolverIter(Natural.NumbersWithZero.Select(k => cosSystem.Get(k)),
                 Natural.NumbersWithZero.Select(k => sobCosSystem.Get(k)));
-            var solution = solverIter.Solve(f, nodes, initVals, partSumOrder, iterCount);
+            var solution = solverIter.Solve(segment, chunksCount, f, nodes, initVals, partSumOrder, iterCount);
+            var dfs = new List<DiscreteFunction2D>();
             foreach (var s in solution)
             {
-                s.X = s.X.Select(x => x * h).ToArray();
+                dfs.AddRange(s);
             }
-            numSolutionPlotIter.DiscreteFunctions = solution;
+            numSolutionPlotIter.Colors = Colors;
+            numSolutionPlotIter.DiscreteFunctions = dfs.ToArray();
             numSolutionPlotIter.Refresh();
             //var deltas = solution.Zip(yExact, (df, y) => Abs(df.Y.Last() - y(df.X.Last()))).ToArray();
-            var deltas = solution.Zip(yExact, (df, y) =>
-                {
-                    var eDf = new DiscreteFunction2D(y, df.X);
-                    return Sqrt((df - eDf).Y.Average(v => v * v));
-                }
-                ).ToArray();
-            Trace.WriteLine($"iter={iterCount}; N={partSumOrder}; dy1={deltas[0]};dy2={deltas[1]}");
+            //var deltas = solution.Zip(yExact, (df, y) =>
+            //    {
+            //        var eDf = new DiscreteFunction2D(y, df.X);
+            //        return Sqrt((df - eDf).Y.Average(v => v * v));
+            //    }
+            //    ).ToArray();
+            //Trace.WriteLine($"iter={iterCount}; N={partSumOrder}; dy1={deltas[0]};dy2={deltas[1]}");
 
         }
 

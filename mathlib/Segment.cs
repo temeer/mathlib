@@ -1,4 +1,6 @@
-﻿namespace mathlib
+﻿using System.Linq;
+
+namespace mathlib
 {
     public struct Segment
     {
@@ -12,5 +14,12 @@
         }
 
         public double Length => End - Start;
+
+        public double[] GetUniformPartition(int nodesCount)
+        {
+            var h = Length / (nodesCount - 1);
+            var a = Start;
+            return Enumerable.Range(0, nodesCount).Select(j => a + j * h).ToArray();
+        }
     }
 }

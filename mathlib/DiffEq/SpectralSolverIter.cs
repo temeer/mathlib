@@ -102,5 +102,30 @@ namespace mathlib.DiffEq
             int partialSumOrder, int iterCount) =>
             Solve(segment, new[] { new DynFunc<double>(2, doubles => f(doubles[0], doubles[1])) }, nodes, initialValues,
                 partialSumOrder, iterCount);
+
+        public List<DiscreteFunction2D[]> Solve(Segment segment, int chunksCount, DynFunc<double>[] f, double[] nodes, double[] initialValues,
+            int partialSumOrder, int iterCount)
+        {
+            var dfs = new List<DiscreteFunction2D[]>();
+            var a = segment.Start;
+            var b = segment.End;
+            var h = (b - a) / chunksCount;
+            var initVals = new double[initialValues.Length];
+            Array.Copy(initialValues, initVals, initialValues.Length);
+            for (int j = 0; j < chunksCount; j++)
+            {
+                var chunk = new Segment(a + j * h, a + (j + 1) * h);
+                var chunkNodes = chunk.GetUniformPartition(nodes.Length);
+                var dfsOnChunk = Solve(chunk, f, chunkNodes, initVals, partialSumOrder, iterCount);
+                dfs.Add(dfsOnChunk);
+                initVals = dfsOnChunk.Select(df => df.Y.Last()).ToArray();
+            }
+            return dfs;
+        }
+
+        public List<DiscreteFunction2D[]> Solve(Segment segment, int chunksCount, Func<double, double, double> f,
+            double[] nodes, double[] initialValues, int partialSumOrder, int iterCount)
+            => Solve(segment, chunksCount, new[] {new DynFunc<double>(2, doubles => f(doubles[0], doubles[1]))},
+                nodes, initialValues, partialSumOrder, iterCount);
     }
 }
