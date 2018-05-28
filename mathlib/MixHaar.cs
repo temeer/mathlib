@@ -197,13 +197,18 @@ namespace mathlib
             }
 
             n = n - r;
-            Func<double, double> log2 = t => Log(t, 2);
-            // Find k and i in representation n=2^k + i
-            var k = Floor(log2(n - 1));
-            var i = n - Pow(2, k);
+
+            int nCopy = n - 1;
+            int k = 0;
+            while (nCopy != 1)
+            {
+                k++;
+                nCopy >>= 1;
+            }
+            int i = n - (1 << k);
 
             var pow2k = Pow(2, k);
-            var pow2k2 = Pow(2, k / 2);
+            var pow2k2 = Pow(2, k / 2.0);
             var rFact = Factorial(r);
 
             return x =>
@@ -226,13 +231,18 @@ namespace mathlib
                 return x => Pow(x, n - 1);
             }
 
-            n = n - 1;
-            double log2(double t) => Log(t, 2);
-            // Find k and i in representation n=2^k + i
-            var k = Floor(log2(n - 1));
-            var i = n - Pow(2, k);
+            n--;
+            
+            int nCopy = n - 1;
+            int k = 0;
+            while (nCopy != 1)
+            {
+                k++;
+                nCopy >>= 1;
+            }
+            int i = n - (1 << k);
 
-            return x => MixedHaar1(k, i)(x);
+            return MixedHaar1(k, i);
         }
 
         public static Func<double, double> MixedHaar1(double k, double i)
