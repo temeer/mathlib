@@ -218,5 +218,39 @@ namespace mathlib
                 return v * pow2k2 / rFact;
             };
         }
+
+        public static Func<double, double> MixedHaar1(int n)
+        {
+            if (n <= 2)
+            {
+                return x => Pow(x, n - 1);
+            }
+
+            n = n - 1;
+            double log2(double t) => Log(t, 2);
+            // Find k and i in representation n=2^k + i
+            var k = Floor(log2(n - 1));
+            var i = n - Pow(2, k);
+
+            return x => MixedHaar1(k, i)(x);
+        }
+
+        public static Func<double, double> MixedHaar1(double k, double i)
+        {
+            var pow2k = Pow(2, k);
+            var pow2k2 = Pow(2, k / 2);
+
+            return x =>
+            {
+                var v = 0.0;
+                var t = (i - 1) / pow2k;
+                if (x >= t) v += x - t;
+                t = (2 * i - 1) / (2 * pow2k);
+                if (x >= t) v -= 2 * (x - t);
+                t = i / pow2k;
+                if (x >= t) v += x - t;
+                return v * pow2k2;
+            };
+        }
     }
 }

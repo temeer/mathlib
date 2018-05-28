@@ -38,14 +38,14 @@ namespace mathlib
             int i = (int)(pow2k * x) + 1;
             int n = pow2k + i + 1;
 
-            result += p[0] * MixHaar.MixedHaar(1, 1)(x);
+            result += p[0] * MixHaar.MixedHaar1(1)(x);
             if (length >= 2)
-                result += p[1] * MixHaar.MixedHaar(1, 2)(x);
+                result += p[1] * MixHaar.MixedHaar1(2)(x);
 
             while (pow2k + i < length)
             {
                 if (pow2k * x < i && pow2k * x + 1 > i)
-                    result += p[n - 1] * MixHaar.MixedHaar(1, n)(x);
+                    result += p[n - 1] * MixHaar.MixedHaar1(k, i)(x);
                 else
                     break;
 
