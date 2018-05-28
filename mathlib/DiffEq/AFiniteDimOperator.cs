@@ -6,12 +6,12 @@ using static System.Linq.Enumerable;
 
 namespace mathlib.DiffEq
 {
-    public class AFiniteDimOperator
+    public class AFiniteDimOperator: IMathOperator<double[][]>
     {
         private readonly DynFunc<double>[] _f;
         private readonly double[] _initialValues;
         private readonly double[] _nodes;
-        private Func<double, double>[] _phi;
+        private readonly Func<double, double>[] _phi;
         private readonly Func<double, double>[] _phiSobolev;
         private readonly int _partialSumOrder; // N
         private readonly int _m;

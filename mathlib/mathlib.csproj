@@ -62,6 +62,7 @@
     <Compile Include="DiffEq\Solver.cs" />
     <Compile Include="ChebRobustCalc.cs" />
     <Compile Include="DiffEq\SpectralSolverIter.cs" />
+    <Compile Include="DiffEq\SpectralSolverIterBase.cs" />
     <Compile Include="DynFunc.cs" />
     <Compile Include="FixedPointIteration.cs" />
     <Compile Include="FourierDiscretePartialSum.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="FunctionsSystem.cs" />
     <Compile Include="Functions\Walsh.cs" />
     <Compile Include="Functions\WalshSobolev.cs" />
+    <Compile Include="IMathOperator.cs" />
     <Compile Include="MixHaar.cs" />
     <Compile Include="Polynomials\GenPolynom.cs" />
     <Compile Include="Polynomials\GenPolynomOnNet.cs" />
