@@ -151,8 +151,15 @@ namespace mathlib
         }
 
 
-        // n >= 1, r >= 1
-        public static Func<double, double> MixedHaar(int r, int n)
+        /// <summary>
+        ///  n >= 1, r >= 1. 
+        /// It is used common definition of sobolev function by integrals. 
+        /// And to calc integrals it is used rectangular formula.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static Func<double, double> MixedHaarByDef(int r, int n)
         {
             if (n <= r)
             {
@@ -181,7 +188,7 @@ namespace mathlib
         /// <param name="r"></param>
         /// <param name="n"></param>
         /// <returns></returns>
-        public static Func<double, double> MixedHaar2(int r, int n)
+        public static Func<double, double> MixedHaar(int r, int n)
         {
             if (n <= r + 1)
             {
