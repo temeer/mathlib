@@ -37,9 +37,9 @@ namespace mathlib
             int i = (int)x + 1;
             int n = 1 + i;
 
-            result += p[0] * MixHaar.MixedHaar1(1)(x);
+            result += p[0];
             if (length >= 2)
-                result += p[1] * MixHaar.MixedHaar1(2)(x);
+                result += p[1] * x;
 
             for (int k = 0; n < length; k++)
             {
@@ -76,9 +76,9 @@ namespace mathlib
             int nu = (int)x + 1;
             int n = 1 + nu;
 
-            result += p[0] * MixHaar.MixedHaar1(1)(x);
+            result += p[0];
             if (length >= 2)
-                result += p[1] * MixHaar.MixedHaar1(2)(x);
+                result += p[1] * x;
 
             for (int k = 0; n < length; k++)
             {
