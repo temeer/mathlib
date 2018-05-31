@@ -262,5 +262,18 @@ namespace mathlib
                 return v * pow2k2;
             };
         }
+
+        public static double MixedHaar12(double x)
+        {
+            if (x >= 0 && x <= 0.5)
+            {
+                return x;
+            }
+            if (x >= 0.5 && x <= 1)
+            {
+                return 1 - x;
+            }
+            return 0;
+        }
     }
 }
