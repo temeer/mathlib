@@ -7,16 +7,21 @@ using static System.Linq.Enumerable;
 
 namespace mathlib.DiffEq
 {
-    public abstract class SpectralSolverIterBase<T>
+    public abstract class SpectralSolverIterBase
     {
-        protected readonly IEnumerable<Func<double, double>> _phi;
-        protected readonly IEnumerable<Func<double, double>> _phiSobolev;
+        private readonly ISpectralOdeOperator<double[][]> _spectralOdeOperator;
+        private readonly double[][] _initialCoeffs;
+        private readonly IInvFourierTransformer _ift;
 
-        protected SpectralSolverIterBase(IEnumerable<Func<double, double>> phi, 
-            IEnumerable<Func<double, double>> phiSobolev)
+        protected SpectralSolverIterBase(ISpectralOdeOperator<double[][]> spectralOdeOperator,
+            double[][] initialCoeffs, IInvFourierTransformer ift)
         {
+            _spectralOdeOperator = spectralOdeOperator;
+            _initialCoeffs = initialCoeffs;
+            _ift = ift;
         }
 
+        /*
         /// <summary>
         /// 
         /// </summary>
@@ -32,109 +37,94 @@ namespace mathlib.DiffEq
         //{
         //}
 
-        
-        protected abstract IMathOperator<T> GetCoeffsOperator();
-        protected abstract T GetInitialCoeffs();
+        //protected abstract ISpectralOdeOperator<double[][]> CreateSpectralOdeOperator();
+        //protected abstract Segment GetOrthogonalitySegment();
+        //protected abstract double[][] GetInitialCoeffs();
+        //protected abstract double[] InvFourierSobolevTransform(double[] coeffs, double[] nodes);
+        */
 
         /// <summary>
-        /// Solves ODE system on [0,1]
+        /// Solves Cauchy problem on orthogonality segment, which is determined by orthogonal system used in GetCoeffsOperator().
         /// </summary>
-        /// <param name="odeRightSide">Array of functions f_i(x,y_1,y_2,...,y_m) that represents ODE system right side, i. e.
-        /// y_i'(x)=f_i(x,y1,y2,...,ym), i=1,...,m.
-        /// </param>
-        /// <param name="initialValues">Solutions values at start point: y_i(a), i=1,...,m</param>
-        /// <param name="coeffsCount"></param>
+        /// <param name="rightSides"></param>
+        /// <param name="initialValues"></param>
+        /// <param name="partialSumOrder"></param>
         /// <param name="iterCount"></param>
-        /// <returns></returns>
-        public DiscreteFunction2D[] Solve(DynFunc<double>[] odeRightSide, double[] initialValues, int coeffsCount, int iterCount)
+        /// <param name="nodes">Calculated approximate solution is discretized on nodes. Nodes should be inside orthogonality segment</param>
+        /// <returns>Approximate solution on nodes</returns>
+        protected DiscreteFunction2D[] SolveOnOrthogonalitySegment(DynFunc<double>[] rightSides, double[] initialValues, 
+            int partialSumOrder, int iterCount, double[] nodes)
         {
-            //var f = new DynFunc<double>[] {new D};
-            var op = GetCoeffsOperator();
-            var m = odeRightSide.First().ArgsCount - 1;
-            var initCoeffs = GetInitialCoeffs();
-            var result = FixedPointIteration.FindFixedPoint(c => op.GetValue(c), initCoeffs, iterCount, c =>
-            {
-                for (int i = 0; i < c.Length; i++)
-                {
-                    Trace.WriteLine("");
-                    for (int j = 0; j < c[i].Length; j++)
-                    {
-                        Trace.Write($"{c[i][j],-5:F10} ");
-                    }
-                }
-                Trace.WriteLine("");
-            });
-            var sobolevPartSum = new FourierDiscretePartialSum(nodes, phiSobolev);
-            return result.Select((coeffs, j) => sobolevPartSum.GetValues(new[] { initialValues[j] }.Concat(coeffs))).ToArray();
+            _spectralOdeOperator.SetParams(rightSides, initialValues, partialSumOrder);
+            var result = FixedPointIteration.FindFixedPoint(c => _spectralOdeOperator.GetValue(c), _initialCoeffs, iterCount);
+            return result.Select((coeffs, j) => 
+                            new DiscreteFunction2D(
+                                nodes,
+                                _ift.Transform(new[] { initialValues[j] }.Concat(coeffs).ToArray(), nodes)))
+                        .ToArray();
         }
-
-        public DiscreteFunction2D[] Solve(Func<double, double, double> f, double[] nodes, double[] initialValues,
-            int partialSumOrder, int iterCount) =>
-            Solve(new[] { new DynFunc<double>(2, doubles => f(doubles[0], doubles[1])) }, nodes, initialValues,
-                partialSumOrder, iterCount);
 
         /// <summary>
         /// Solves ODE system on segment
         /// </summary>
-        /// <param name="segment"></param>
-        /// <param name="f"></param>
-        /// <param name="nodes">Nodes should be inside segment</param>
-        /// <param name="initialValues"></param>
+        /// <param name="problem"></param>
         /// <param name="partialSumOrder"></param>
         /// <param name="iterCount"></param>
+        /// /// <param name="nodes">Nodes should be inside problem segment</param>
         /// <returns></returns>
-        public DiscreteFunction2D[] Solve(Segment segment, DynFunc<double>[] f, double[] nodes, double[] initialValues,
-            int partialSumOrder, int iterCount)
+        public DiscreteFunction2D[] Solve(CauchyProblem problem, int partialSumOrder, int iterCount, double[] nodes)
         {
-            var h = segment.Length;
-            // to apply iter method we should linear transform segment to [0,1]
-            // transformedF(x,y)=(segment.End-segment.Start)*f((segment.End-segment.Start)x+segment.Start)
-            var transformedF = f.Select(fj =>
+            // To apply iter method we should linear transform problem segment to orthogonality segment.
+            // Let's denote orthogonality segment by [a0,b0] and problem segment by [a,b]. 
+            // We want to transform problem y'(x)=f(x,y(x)), x \in [a,b], y(a)=y0 to equivalent 
+            // problem on [a0,b0]. For this purpose we use transform x = (t-a0)(b-a)/(b0-a0)+a:
+            // z(t)=y(x)=y(t-a0)(b-a)/(b0-a0)+a). Let's rewrite original problem in terms of z(t) and t:
+            // z'(t)=y'(x)*(b-a)/(b0-a0)=f((t-a0)(b-a)/(b0-a0)+a, z(t))*(b-a)/(b0-a0), z(a0)=y(a). 
+            // Finally, with notation h=(b-a)/(b0-a0) we have:
+            // z'(t)=h * f(h(t-a0)+a, z(t)), z(a0)=y(a). 
+            // So to solve original problem on [a,b] we can solve new problem on [a0,b0] and then use inverse 
+            // transform to get y(x) from z(t).
+            var (a, b) = problem.Segment;
+            var (a0, b0) = _spectralOdeOperator.OrthogonalitySegment;
+            var h = problem.Segment.Length / _spectralOdeOperator.OrthogonalitySegment.Length;
+
+            var transformedRightSides = problem.RightSides.Select(fj =>
                 new DynFunc<double>(fj.ArgsCount, doubles =>
                 {
                     var newDoubles = new double[doubles.Length];
                     Array.Copy(doubles, newDoubles, doubles.Length);
-                    newDoubles[0] = h * doubles[0] + segment.Start;
+                    newDoubles[0] = h * (doubles[0] - a0) + a;
                     return h * fj.Invoke(newDoubles);
                 })).ToArray();
 
-            var dfs = Solve(transformedF, nodes.Select(x => (x - segment.Start) / h).ToArray(),
-                initialValues, partialSumOrder, iterCount);
+            
+            var dfs = SolveOnOrthogonalitySegment(transformedRightSides, problem.InitialValues, 
+                partialSumOrder, iterCount, nodes.Select(x => (x - a) / h + a0).ToArray());
 
-            // dfs is defined on [0,1] and we should transform it to [segment.Start, segment.End]
+            // dfs is defined on [a0,b0] and we should transform it to [a,b]
             return dfs.Select(df =>
-                new DiscreteFunction2D(df.X.Select(x => h * x + segment.Start).ToArray(),
+                new DiscreteFunction2D(df.X.Select(x => h * (x - a0) + a).ToArray(),
                                        df.Y)).ToArray();
         }
 
-        public DiscreteFunction2D[] Solve(Segment segment, Func<double, double, double> f, double[] nodes, double[] initialValues,
-            int partialSumOrder, int iterCount) =>
-            Solve(segment, new[] { new DynFunc<double>(2, doubles => f(doubles[0], doubles[1])) }, nodes, initialValues,
-                partialSumOrder, iterCount);
-
-        public List<DiscreteFunction2D[]> Solve(Segment segment, int chunksCount, DynFunc<double>[] f, double[] nodes, double[] initialValues,
-            int partialSumOrder, int iterCount)
+        public List<DiscreteFunction2D[]> Solve(CauchyProblem problem, int chunksCount, 
+            int partialSumOrder, int iterCount, int chunkNodesCount)
         {
             var dfs = new List<DiscreteFunction2D[]>();
-            var a = segment.Start;
-            var b = segment.End;
+            var (a, b) = problem.Segment;
             var h = (b - a) / chunksCount;
-            var initVals = new double[initialValues.Length];
-            Array.Copy(initialValues, initVals, initialValues.Length);
+            var initVals = new double[problem.InitialValues.Length];
+            Array.Copy(problem.InitialValues, initVals, initVals.Length);
             for (int j = 0; j < chunksCount; j++)
             {
                 var chunk = new Segment(a + j * h, a + (j + 1) * h);
-                var chunkNodes = chunk.GetUniformPartition(nodes.Length);
-                var dfsOnChunk = Solve(chunk, f, chunkNodes, initVals, partialSumOrder, iterCount);
+                var chunkNodes = chunk.GetUniformPartition(chunkNodesCount);
+                var problemOnChunk = new CauchyProblem(problem.RightSides, initVals, chunk);
+                var dfsOnChunk = Solve(problemOnChunk, partialSumOrder, iterCount, chunkNodes);
                 dfs.Add(dfsOnChunk);
                 initVals = dfsOnChunk.Select(df => df.Y.Last()).ToArray();
             }
             return dfs;
         }
-
-        public List<DiscreteFunction2D[]> Solve(Segment segment, int chunksCount, Func<double, double, double> f,
-            double[] nodes, double[] initialValues, int partialSumOrder, int iterCount)
-            => Solve(segment, chunksCount, new[] { new DynFunc<double>(2, doubles => f(doubles[0], doubles[1])) },
-                nodes, initialValues, partialSumOrder, iterCount);
     }
 }

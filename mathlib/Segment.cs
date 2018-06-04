@@ -21,5 +21,11 @@ namespace mathlib
             var a = Start;
             return Enumerable.Range(0, nodesCount).Select(j => a + j * h).ToArray();
         }
+
+        public void Deconstruct(out double start, out double end)
+        {
+            start = Start;
+            end = End;
+        }
     }
 }

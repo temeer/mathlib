@@ -58,9 +58,9 @@ namespace Demo
             var cosSystem = new CosSystem();
             var sobCosSystem = new SobolevCosSystem();
 
-            var solverIter = new SpectralSolverIter(Natural.NumbersWithZero.Select(k => cosSystem.Get(k)),
-                Natural.NumbersWithZero.Select(k => sobCosSystem.Get(k)));
-            var df = solverIter.Solve(segment, chunksCount, f, nodes, new[] { y0 }, partSumOrder, iterCount);
+            var solverIter = new CosSpectralSolverIter(1000, null);
+            var problem = new CauchyProblem(f, y0, segment);
+            var df = solverIter.Solve(problem, chunksCount, partSumOrder, iterCount, nodesCount);
             //df.X = df.X.Select(x => x).ToArray();
             numSolutionPlotIter.Colors = Colors;
             numSolutionPlotIter.DiscreteFunctions = df.Select(d => d[0]).ToArray();
@@ -88,9 +88,9 @@ namespace Demo
             var cosSystem = new CosSystem();
             var sobCosSystem = new SobolevCosSystem();
 
-            var solverIter = new SpectralSolverIter(Natural.NumbersWithZero.Select(k => cosSystem.Get(k)),
-                Natural.NumbersWithZero.Select(k => sobCosSystem.Get(k)));
-            var solution = solverIter.Solve(segment, chunksCount, f, nodes, initVals, partSumOrder, iterCount);
+            var solverIter = new CosSpectralSolverIter(1000, null);
+            var problem = new CauchyProblem(f, initVals, segment);
+            var solution = solverIter.Solve(problem, chunksCount, partSumOrder, iterCount, nodesCount);
             var dfs = new List<DiscreteFunction2D>();
             foreach (var s in solution)
             {
