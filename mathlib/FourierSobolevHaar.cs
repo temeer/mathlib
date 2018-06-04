@@ -63,46 +63,5 @@ namespace mathlib
                 return FastCalc(p, x);
             };
         }
-
-        public static double FastCalc1(double[] p, double x)
-        {
-            double result = 0;
-
-            int length = p.Length;
-            int pow2k = 1;
-            double pow2kx = x;
-            double pow2k2 = 1;
-            double sqrt2 = Math.Sqrt(2);
-            int nu = (int)x + 1;
-            int n = 1 + nu;
-
-            result += p[0];
-            if (length >= 2)
-                result += p[1] * x;
-
-            for (int k = 0; n < length; k++)
-            {
-                if (pow2kx < nu && pow2kx + 1 > nu)
-                    result += p[n] * MixHaar.MixedHaar12(pow2kx - (int)pow2kx) * pow2k2;
-                else
-                    break;
-                
-                pow2k *= 2;
-                pow2kx *= 2;
-                pow2k2 /= sqrt2;
-                nu = (int)pow2kx + 1;
-                n = pow2k + nu;
-            }
-
-            return result;
-        }
-
-        public static Func<double, double> FastCalc1(double[] p)
-        {
-            return x =>
-            {
-                return FastCalc1(p, x);
-            };
-        }
     }
 }
