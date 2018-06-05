@@ -22,7 +22,7 @@ namespace Demo
         private int lengthP;
         private int lengthX;
 
-        private double[] p;
+        private double[] p, pWithZero;
 
         public FourierSobolevHaarExample()
         {
@@ -33,8 +33,8 @@ namespace Demo
             
             FindP();
 
-            _plot1.DiscreteFunction = new DiscreteFunction2D(FourierSobolevHaar.Calc(p), 0, 1, lengthX);
-            _plot2.DiscreteFunction = new DiscreteFunction2D(FourierSobolevHaar.FastCalc1(p), 0, 1, lengthX);
+            _plot1.DiscreteFunction = new DiscreteFunction2D(FourierSobolevHaar.Calc(pWithZero), 0, 1, lengthX);
+            _plot2.DiscreteFunction = new DiscreteFunction2D(SobolevHaarLinearCombination.FastCalc(p), 0, 1, lengthX);
 
             GraphBuilder.DrawPlot(_plot1);
             GraphBuilder.DrawPlot(_plot2);
@@ -66,12 +66,13 @@ namespace Demo
             {
                 p[i] = 1;
             }
+            pWithZero = p.Prepend(0).ToArray();
         }
 
         private void PlotRefresh()
         {
-            _plot1.DiscreteFunction = new DiscreteFunction2D(FourierSobolevHaar.Calc(p), 0, 1, lengthX);
-            _plot2.DiscreteFunction = new DiscreteFunction2D(FourierSobolevHaar.FastCalc1(p), 0, 1, lengthX);
+            _plot1.DiscreteFunction = new DiscreteFunction2D(FourierSobolevHaar.Calc(pWithZero), 0, 1, lengthX);
+            _plot2.DiscreteFunction = new DiscreteFunction2D(SobolevHaarLinearCombination.FastCalc(p), 0, 1, lengthX);
 
             _plot1.Refresh();
             _plot2.Refresh();
