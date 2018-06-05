@@ -58,10 +58,12 @@
   <ItemGroup>
     <Compile Include="Binomial.cs" />
     <Compile Include="Common.cs" />
-    <Compile Include="DiffEq\AFiniteDimOperator.cs" />
+    <Compile Include="DiffEq\CosSpectralOdeOperator.cs" />
+    <Compile Include="DiffEq\CauchyProblem.cs" />
     <Compile Include="DiffEq\Solver.cs" />
     <Compile Include="ChebRobustCalc.cs" />
-    <Compile Include="DiffEq\SpectralSolverIter.cs" />
+    <Compile Include="DiffEq\CosSpectralSolverIter.cs" />
+    <Compile Include="DiffEq\SpectralSolverIterBase.cs" />
     <Compile Include="DynFunc.cs" />
     <Compile Include="FixedPointIteration.cs" />
     <Compile Include="FourierDiscretePartialSum.cs" />
@@ -70,6 +72,8 @@
     <Compile Include="FunctionsSystem.cs" />
     <Compile Include="Functions\Walsh.cs" />
     <Compile Include="Functions\WalshSobolev.cs" />
+    <Compile Include="IInvFourierTransformer.cs" />
+    <Compile Include="ISpectralOdeOperator.cs" />
     <Compile Include="MixHaar.cs" />
     <Compile Include="Polynomials\GenPolynom.cs" />
     <Compile Include="Polynomials\GenPolynomOnNet.cs" />
