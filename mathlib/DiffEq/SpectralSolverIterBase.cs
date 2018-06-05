@@ -10,16 +10,17 @@ namespace mathlib.DiffEq
     public abstract class SpectralSolverIterBase
     {
         private readonly ISpectralOdeOperator<double[][]> _spectralOdeOperator;
-        private readonly double[][] _initialCoeffs;
         private readonly IInvFourierTransformer _ift;
 
         protected SpectralSolverIterBase(ISpectralOdeOperator<double[][]> spectralOdeOperator,
-            double[][] initialCoeffs, IInvFourierTransformer ift)
+            IInvFourierTransformer ift)
         {
             _spectralOdeOperator = spectralOdeOperator;
-            _initialCoeffs = initialCoeffs;
             _ift = ift;
         }
+
+        private static double[][] GenerateInitialCoeffs(int equationsCount, int coeffsCount) =>
+            Range(0, equationsCount).Select(j => Range(0, coeffsCount).Select(k => 1.0 / (k + 1)).ToArray()).ToArray();
 
         /*
         /// <summary>
@@ -48,15 +49,21 @@ namespace mathlib.DiffEq
         /// </summary>
         /// <param name="rightSides"></param>
         /// <param name="initialValues"></param>
-        /// <param name="partialSumOrder"></param>
         /// <param name="iterCount"></param>
+        /// <param name="initialCoeffs">Initial point for iteration method. It size should be equationsCount x partialSumOrder</param>
         /// <param name="nodes">Calculated approximate solution is discretized on nodes. Nodes should be inside orthogonality segment</param>
         /// <returns>Approximate solution on nodes</returns>
         protected DiscreteFunction2D[] SolveOnOrthogonalitySegment(DynFunc<double>[] rightSides, double[] initialValues, 
-            int partialSumOrder, int iterCount, double[] nodes)
+            int iterCount, double[][] initialCoeffs, double[] nodes)
         {
+            if (initialCoeffs.Length != rightSides.Length)
+                throw new ArgumentException("rightSides length should equal to initialCoeffs length");
+
+            // \eta(a)+\sum_{j=0}^{partialSumOrder-1}d_j\phi_{1,1+j}(t)
+            var partialSumOrder = initialCoeffs[0].Length;
+
             _spectralOdeOperator.SetParams(rightSides, initialValues, partialSumOrder);
-            var result = FixedPointIteration.FindFixedPoint(c => _spectralOdeOperator.GetValue(c), _initialCoeffs, iterCount);
+            var result = FixedPointIteration.FindFixedPoint(c => _spectralOdeOperator.GetValue(c), initialCoeffs, iterCount);
             return result.Select((coeffs, j) => 
                             new DiscreteFunction2D(
                                 nodes,
@@ -64,13 +71,20 @@ namespace mathlib.DiffEq
                         .ToArray();
         }
 
+        protected DiscreteFunction2D[] SolveOnOrthogonalitySegment(DynFunc<double>[] rightSides, double[] initialValues, 
+            int partialSumOrder, int iterCount, double[] nodes)
+        {
+            var initialCoeffs = GenerateInitialCoeffs(rightSides.Length, partialSumOrder);
+            return SolveOnOrthogonalitySegment(rightSides, initialValues, iterCount, initialCoeffs, nodes);
+        }
+        
         /// <summary>
         /// Solves ODE system on segment
         /// </summary>
         /// <param name="problem"></param>
         /// <param name="partialSumOrder"></param>
         /// <param name="iterCount"></param>
-        /// /// <param name="nodes">Nodes should be inside problem segment</param>
+        /// <param name="nodes">Nodes should be inside problem segment</param>
         /// <returns></returns>
         public DiscreteFunction2D[] Solve(CauchyProblem problem, int partialSumOrder, int iterCount, double[] nodes)
         {

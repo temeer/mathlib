@@ -10,16 +10,14 @@ namespace mathlib.DiffEq
 {
     public class CosSpectralSolverIter: SpectralSolverIterBase
     {
-        // Used to calculate coeffs that are represented as integrals
-        private readonly double[] _quadratureNodes;
-
-        public CosSpectralSolverIter(int quadratureNodesCount, double[][] initialCoeffs):
-            base(CreateOperator(quadratureNodesCount), initialCoeffs, CreateIft())
+        public CosSpectralSolverIter(int quadratureNodesCount):
+            base(CreateOperator(quadratureNodesCount), CreateIft())
         {
         }
 
         private static ISpectralOdeOperator<double[][]> CreateOperator(int quadratureNodesCount)
         {
+            // Used to calculate coeffs that are represented as integrals
             var quadratureNodes = new Segment(0, 1).GetUniformPartition(quadratureNodesCount);
             var cosSystem = new CosSystem();
             var sobCosSystem = new SobolevCosSystem();
@@ -30,7 +28,13 @@ namespace mathlib.DiffEq
 
         private static IInvFourierTransformer CreateIft()
         {
-            throw new NotImplementedException();
+            return new InvFourierTransformer((coeffs, nodes) =>
+            {
+                var sobCosSystem = new SobolevCosSystem();
+                var sobolevPartSum = new FourierDiscretePartialSum(nodes, 
+                    Natural.NumbersWithZero.Select(k => sobCosSystem.Get(k)).Take(coeffs.Length).ToArray());
+                return sobolevPartSum.GetValues(coeffs).Y;
+            });
         }
 
         //public DiscreteFunction2D[] Solve(double[] nodes, double h, int partialSumOrder, int iterCount)
@@ -49,8 +53,7 @@ namespace mathlib.DiffEq
             
         //}
 
-        //protected override double[][] GetInitialCoeffs() =>
-        //    Range(0, m).Select(j => Range(0, coeffsCount).Select(k => 1.0 / (k + 1)).ToArray()).ToArray();
+        
         
     }
 }
