@@ -46,5 +46,17 @@ namespace mathlib
 
             return bin;
         }
+
+        /// <summary>
+        /// Returns k and i in representation n=2^k+i, where i=1,...,2^k
+        /// </summary>
+        /// <param name="n">It should be greater than 1</param>
+        /// <returns></returns>
+        public static (int k, int i) Decompose(int n)
+        {
+            var k = (int)Math.Log(n - 1, 2);
+            var i = n - (int)Math.Pow(2, k);
+            return (k, i);
+        }
     }
 }

@@ -153,8 +153,8 @@ namespace mathlib
 
         /// <summary>
         ///  n >= 1, r >= 1. 
-        /// It is used common definition of sobolev function by integrals. 
-        /// And to calc integrals it is used rectangular formula.
+        /// Common definition of sobolev function by integrals is used.  
+        /// And to calc integrals rectangular formula is used .
         /// </summary>
         /// <param name="r"></param>
         /// <param name="n"></param>

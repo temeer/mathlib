@@ -93,6 +93,12 @@
     <Compile Include="FourierSobolevHaarExample.Designer.cs">
       <DependentUpon>FourierSobolevHaarExample.cs</DependentUpon>
     </Compile>
+    <Compile Include="MixHaar2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MixHaar2.Designer.cs">
+      <DependentUpon>MixHaar2.cs</DependentUpon>
+    </Compile>
     <Compile Include="ODE.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +122,9 @@
     </Compile>
     <EmbeddedResource Include="FourierSobolevHaarExample.resx">
       <DependentUpon>FourierSobolevHaarExample.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MixHaar2.resx">
+      <DependentUpon>MixHaar2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ODE.resx">
       <DependentUpon>ODE.cs</DependentUpon>

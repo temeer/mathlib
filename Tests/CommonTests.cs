@@ -22,7 +22,7 @@ namespace Tests
 
             bin = Common.ToBinary(2);
             Assert.AreEqual(2, bin.Length);
-            Assert.AreEqual(new[]{0, 1}, bin);
+            Assert.AreEqual(new[] { 0, 1 }, bin);
 
             bin = Common.ToBinary(3);
             Assert.AreEqual(2, bin.Length);
@@ -31,14 +31,28 @@ namespace Tests
 
             bin = Common.ToBinary(150);
             Assert.AreEqual(8, bin.Length);
-            Assert.AreEqual(new[] { 1,0,0,1,0,1,1,0 }.Reverse(), bin);
+            Assert.AreEqual(new[] { 1, 0, 0, 1, 0, 1, 1, 0 }.Reverse(), bin);
         }
 
         [Test]
         public void ToBinaryDoubleTest()
         {
             var bin = Common.ToBinary(0.625, 3);
-            Assert.AreEqual(new[] {1,0,1}, bin);
+            Assert.AreEqual(new[] { 1, 0, 1 }, bin);
+        }
+
+        [Test]
+        public void DecomposeTest()
+        {
+            var n = 10;
+            var (k, i) = Common.Decompose(n);
+            Assert.AreEqual(3, k);
+            Assert.AreEqual(2, i);
+
+            n = 8;
+            (k, i) = Common.Decompose(n);
+            Assert.AreEqual(2, k);
+            Assert.AreEqual(4, i);
         }
     }
 }
