@@ -55,10 +55,10 @@ namespace Demo
                 exactSolutionPlot.Refresh();
             }
             //nodes = Range(0, nodesCount).Select(j => segment.Start + segment.Length * j / nodesCount).ToArray();
-            var cosSystem = new CosSystem();
-            var sobCosSystem = new SobolevCosSystem();
+            var cheb1System = new Cheb1System();
+            var sobCheb1System = new SobolevCheb1System();
 
-            var solverIter = new CosSpectralSolverIter(1000);
+            var solverIter = new Cheb1SpectralSolverIter(1000);
             var problem = new CauchyProblem(f, y0, segment);
             var df = solverIter.Solve(problem, chunksCount, partSumOrder, iterCount, nodesCount);
             //df.X = df.X.Select(x => x).ToArray();
@@ -85,10 +85,10 @@ namespace Demo
                 exactSolutionPlot.Refresh();
             }
 
-            var cosSystem = new CosSystem();
-            var sobCosSystem = new SobolevCosSystem();
+            var cheb1System = new Cheb1System();
+            var sobCheb1System = new SobolevCheb1System();
 
-            var solverIter = new CosSpectralSolverIter(1000);
+            var solverIter = new Cheb1SpectralSolverIter(1000);
             var problem = new CauchyProblem(f, initVals, segment);
             var solution = solverIter.Solve(problem, chunksCount, partSumOrder, iterCount, nodesCount);
             var dfs = new List<DiscreteFunction2D>();

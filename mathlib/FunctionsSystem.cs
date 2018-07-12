@@ -107,9 +107,7 @@ namespace mathlib
 
         public override Func<double, double> Get(int k)
         {
-            if (k == 0)
-                return x => OneOverSqrt2;
-            return x => Math.Cos(k * Math.Acos(x));
+            return x => OrthogonalWeights.Cheb1Weight(x);
         }
 
         public override Segment OrthogonalitySegment => new Segment(-1, 1);
@@ -143,7 +141,7 @@ namespace mathlib
 
         public static Func<double, double> UniformWeight(double A = 1.0)
         {
-            return x => A;
+                return x => A;
         }
 
     }

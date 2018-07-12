@@ -128,5 +128,19 @@ namespace Demo
             var y0 = YExact(segment.Start);
             return (segment, y0, f, YExact);
         }
+
+        public static (Segment segment, double y0, Func<double, double, double> f, Func<double, double> yExact) Example4()
+        {
+            //var x0 = 0d;
+            Func<double, double, double> f = (x, y) => -2 * x * y * y / (x * x - 1);
+            //var b = 1;
+
+            var h = 0.5d;
+            double YExact(double x) => 1.0 / (Log(1 - x * x) + 1);
+            var segment = new Segment(-1.0, 1.0);
+            var y0 = YExact(segment.Start);
+            return (segment, y0, f, YExact);
+        }
+
     }
 }
