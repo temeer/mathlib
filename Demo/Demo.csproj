@@ -120,6 +120,12 @@
     <Compile Include="SobolevWalsh.Designer.cs">
       <DependentUpon>SobolevWalsh.cs</DependentUpon>
     </Compile>
+    <Compile Include="SobolevWalshPartSumExample.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SobolevWalshPartSumExample.Designer.cs">
+      <DependentUpon>SobolevWalshPartSumExample.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="FourierSobolevHaarExample.resx">
       <DependentUpon>FourierSobolevHaarExample.cs</DependentUpon>
     </EmbeddedResource>
@@ -144,6 +150,9 @@
     </Compile>
     <EmbeddedResource Include="SobolevWalsh.resx">
       <DependentUpon>SobolevWalsh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SobolevWalshPartSumExample.resx">
+      <DependentUpon>SobolevWalshPartSumExample.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
