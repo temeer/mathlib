@@ -20,9 +20,7 @@ namespace Demo
                 new DynFunc<double>(3, args => args[1]*args[1]/(args[2]-args[0])),
                 new DynFunc<double>(3, args => args[1]+1)
             };
-
-
-
+			
             var h = 1d;
             return (initVals, f, h, new Func<double, double>[] { x => Exp(x), x => x + Exp(x) });
         }
